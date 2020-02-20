@@ -9,7 +9,7 @@
    Ce module gère les cartes du labyrinthe. 
 """
 import random
-#Biss
+#non
 
 
 """
