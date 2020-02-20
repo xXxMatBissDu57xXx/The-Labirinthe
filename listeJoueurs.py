@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+""" bla bla bla
     Projet Labyrinthe
     Projet Python 2020 - Licence Informatique UNC (S3 TREC7)
 
