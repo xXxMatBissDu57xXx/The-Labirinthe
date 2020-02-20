@@ -10,7 +10,7 @@
 """
 import random
 #non
-
+#Oui
 
 """
 la liste des caractères semi-graphiques correspondant aux différentes cartes
