@@ -19,6 +19,8 @@ le caractère 'Ø' indique que l'indice ne correspond pas à une carte
 """
 listeCartes=['╬','╦','╣','╗','╩','═','╝','Ø','╠','╔','║','Ø','╚','Ø','Ø','Ø']
 
+#carte(codeMurs,numTresor,codeJoueurs)
+
 
 def Carte( nord, est, sud, ouest, tresor=0, pions=[]):
     """
@@ -35,6 +37,10 @@ def estValide(c):
     retourne un booléen indiquant si la carte est valide ou non c'est à dire qu'elle a zéro un ou deux murs
     paramètre: c une carte
     """
+	if bin(c).count(1) < 3:
+		return True 
+	else :
+		return False
     pass
 
 def murNord(c):
@@ -42,6 +48,10 @@ def murNord(c):
     retourne un booléen indiquant si la carte possède un mur au nord
     paramètre: c une carte
     """
+	if(bin(c)[0]==1):
+		return True
+	else:
+		return False
     pass
 
 def murSud(c):
@@ -49,6 +59,10 @@ def murSud(c):
     retourne un booléen indiquant si la carte possède un mur au sud
     paramètre: c une carte
     """
+	if(bin(c)[2]==1):
+		return True
+	else:
+		return False
     pass
 
 def murEst(c):
@@ -56,6 +70,10 @@ def murEst(c):
     retourne un booléen indiquant si la carte possède un mur à l'est
     paramètre: c une carte
     """
+	if(bin(c)[0]==1):
+		return True
+	else:
+		return False
     pass
 
 def murOuest(c):
@@ -63,6 +81,10 @@ def murOuest(c):
     retourne un booléen indiquant si la carte possède un mur à l'ouest
     paramètre: c une carte
     """
+	if(bin(c)[0]==1):
+		return True
+	else:
+		return False
     pass
 
 def getListePions(c):
@@ -70,7 +92,13 @@ def getListePions(c):
     retourne la liste des pions se trouvant sur la carte
     paramètre: c une carte
     """
-    pass
+	listePions = []
+	if (bin(c[2]).count(1) > 1):
+		for(i = 0; len < bin(c).count(1); i ++): 
+			if c[i] == 1:
+				listePions.append(2**i)
+    return listePions
+	pass
 
 def setListePions(c,listePions):
     """
@@ -79,13 +107,16 @@ def setListePions(c,listePions):
                 listePions: la liste des pions à poser
     Cette fonction ne retourne rien mais modifie la carte
     """
-    pass
+	for i in listePions:
+		c[i-1] = 1
+	pass
 
 def getNbPions(c):
     """
     retourne le nombre de pions se trouvant sur la carte
     paramètre: c une carte
     """
+	return(bin(c[2]).count(1))
     pass
 
 def possedePion(c,pion):
@@ -94,6 +125,10 @@ def possedePion(c,pion):
     paramètres: c une carte
                 pion un entier compris entre 1 et 4
     """
+	if(bin(c)[pion-1] == 1):
+		return True
+	else:
+		return False
     pass
 
 
@@ -102,6 +137,7 @@ def getTresor(c):
     retourne la valeur du trésor qui se trouve sur la carte (0 si pas de trésor)
     paramètre: c une carte
     """
+	return c[1];
     pass
 
 def prendreTresor(c):
@@ -110,7 +146,11 @@ def prendreTresor(c):
     paramètre: c une carte
     résultat l'entier représentant le trésor qui était sur la carte
     """
+	tmp = getTresor(c)
+	c[1] = 0
+	return tmp
     pass
+
 def mettreTresor(c,tresor):
     """
     met le trésor passé en paramètre sur la carte et retourne la valeur de l'ancien trésor
@@ -118,6 +158,9 @@ def mettreTresor(c,tresor):
                 tresor un entier positif
     résultat l'entier représentant le trésor qui était sur la carte
     """
+	tmp = getTresor(c)
+	c[1] = tresor
+	return tmp
     pass
 
 def prendrePion(c, pion):
@@ -127,6 +170,9 @@ def prendrePion(c, pion):
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
     """
+	tmp = bin(c[2])
+		tmp[pion-1] = 0
+	c[2] = int(tmp, 2)
     pass
 
 def poserPion(c, pion):
@@ -136,6 +182,11 @@ def poserPion(c, pion):
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
     """
+	if(bin(c[2])[pion-1] == 1):
+		tmp = bin(c[2])
+		tmp[pion-1] = 0
+		c[2] = int(tmp, 2)
+	else:
     pass
 
 def tournerHoraire(c):
@@ -144,6 +195,10 @@ def tournerHoraire(c):
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien    
     """
+	tmp = bin(c[2])
+	tmp.append(tmp[0])
+	tmp.pop(0)
+	c[2] = int(tmp, 2)
     pass
 
 def tournerAntiHoraire(c):
@@ -152,7 +207,14 @@ def tournerAntiHoraire(c):
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien    
     """
+	tmp = bin(c[2])
+	tmp.reverse()
+	tmp.append(tmp[0])
+	tmp.pop(0)
+	tmp.reverse
+	c[2] = int(tmp, 2)
     pass
+
 def tourneAleatoire(c):
     """
     faire tourner la carte d'un nombre de tours aléatoire
