@@ -3,10 +3,10 @@
         Projet Labyrinthe 
         Projet Python 2020 - Licence Informatique UNC (S3 TREC7)
         
-   Module carte
-   ~~~~~~~~~~~~
-   
-   Ce module gère les cartes du labyrinthe. 
+    Module carte
+    ~~~~~~~~~~~~
+    
+    Ce module gère les cartes du labyrinthe. 
 """
 
 import random
@@ -16,10 +16,8 @@ la liste des caractères semi-graphiques correspondant aux différentes cartes
 l'indice du caractère dans la liste correspond au codage des murs sur la carte
 le caractère 'Ø' indique que l'indice ne correspond pas à une carte
 """
+
 listeCartes=['╬','╦','╣','╗','╩','═','╝','Ø','╠','╔','║','Ø','╚','Ø','Ø','Ø']
-
-#carte(codeMurs,numTresor,codeJoueurs)
-
 
 def Carte( nord, est, sud, ouest, tresor=0, pions=[]):
     """
@@ -30,96 +28,72 @@ def Carte( nord, est, sud, ouest, tresor=0, pions=[]):
     pions est la liste des pions qui sont posés sur la carte (un pion est un entier entre 1 et 4)
     """
 
-	"""
-	carte = [int([bin(nord==True)],[bin(est==True)],[bin(sud==True)],[bin(ouest==True)]), tresor, 0]
-	for(i in pions):
-		poserPion(carte, i)
-	return carte
-	"""
-
-	carte = {"nord":nord,"est":est,"sud":sud,"ouest":ouest,"tresor":tresor,"pions":pions}
-	return carte
-    pass
+    carte = {"nord":nord, "est":est, "sud":sud, "ouest":ouest, "tresor":tresor, "pions":pions}
+    return carte
 
 def estValide(c):
     """
     retourne un booléen indiquant si la carte est valide ou non c'est à dire qu'elle a zéro un ou deux murs
     paramètre: c une carte
     """
-	"""
-	if bin(c).count(1) < 3:
-		return True 
-	else :
-		return False
-	"""
-	if([c.get(nord),c.get[est],c.get[sud],c.get(ouest)].count(1)<3):
-		return True
-	else:
-		return False  
 
-	pass
+    if([c.get(nord),c.get[est],c.get[sud],c.get(ouest)].count(1)<3):
+        return True
+    else:
+        return False
 
 def murNord(c):
     """
     retourne un booléen indiquant si la carte possède un mur au nord
     paramètre: c une carte
     """
-	if(c.get(nord)==True):
-		return True
-	else:
-		return False
-    pass
+
+    if(c.get(nord)==True):
+        return True
+    else:
+        return False
 
 def murSud(c):
     """
     retourne un booléen indiquant si la carte possède un mur au sud
     paramètre: c une carte
     """
-	if(c.get(sud)==True):
-		return True
-	else:
-		return False
-    pass
+
+    if(c.get(sud)==True):
+        return True
+    else:
+        return False
 
 def murEst(c):
     """
     retourne un booléen indiquant si la carte possède un mur à l'est
     paramètre: c une carte
     """
-	if(c.get(est)===True):
-		return True
-	else:
-		return False
-    pass
+
+    if(c.get(est)==True):
+        return True
+    else:
+        return False
 
 def murOuest(c):
     """
     retourne un booléen indiquant si la carte possède un mur à l'ouest
     paramètre: c une carte
     """
-	if(c.get(ouest)==True):
-		return True
-	else:
-		return False
-    pass
+
+    if(c.get(ouest)==True):
+        return True
+    else:
+        return False
 
 def getListePions(c):
     """
     retourne la liste des pions se trouvant sur la carte
     paramètre: c une carte
     """
-	"""
-	listePions = []
-	if (bin(c[2]).count(1) > 1):
-		for(i = 0; len < bin(c).count(1); i ++): 
-			if c[i] == 1:
-				listePions.append(2**i)
-    return listePions
-	"""
 
-	return c.get("pions")
-
-	pass
+    return c.get("pions")
+    pass
 
 def setListePions(c,listePions):
     """
@@ -129,14 +103,8 @@ def setListePions(c,listePions):
     Cette fonction ne retourne rien mais modifie la carte
     """
 
-	"""
-	for i in listePions:
-		c[i-1] = 1
-	"""
-
-	c["pions"] = listePions
-
-	pass
+    c["pions"] = listePions
+    pass
 
 def getNbPions(c):
     """
@@ -144,16 +112,10 @@ def getNbPions(c):
     paramètre: c une carte
     """
 
-	"""
-	return(bin(c[2]).count(1))
-	"""
-
-	nbPions = 0
-	for i in getListePions(c):
-		nbPions += 1
-	return nbPions
-
-    pass
+    nbPions = 0
+    for i in getListePions(c):
+        nbPions += 1
+    return nbPions
 
 def possedePion(c,pion):
     """
@@ -161,18 +123,11 @@ def possedePion(c,pion):
     paramètres: c une carte
                 pion un entier compris entre 1 et 4
     """
-	"""
-	if(bin(c)[pion-1] == 1):
-		return True
-	else:
-		return False
-	"""
 
-	for i in c.get("pions"):
-		if i == pion :
-			return True
-	return False
-    pass
+    for i in c.get("pions"):
+        if i == pion :
+            return True
+    return False
 
 
 def getTresor(c):
@@ -180,12 +135,8 @@ def getTresor(c):
     retourne la valeur du trésor qui se trouve sur la carte (0 si pas de trésor)
     paramètre: c une carte
     """
-	"""
-	return c[1];
-	"""
 
-	return c.get("tresor")
-    pass
+    return c.get("tresor")
 
 def prendreTresor(c):
     """
@@ -193,17 +144,10 @@ def prendreTresor(c):
     paramètre: c une carte
     résultat l'entier représentant le trésor qui était sur la carte
     """
-	"""
-	tmp = getTresor(c)
-	c[1] = 0
-	return tmp
-	"""
 
-	tresor = getTresor(c)
-	c["tresor"] = 0
-	return tresor
-
-    pass
+    tresor = getTresor(c)
+    c["tresor"] = 0
+    return tresor
 
 def mettreTresor(c,tresor):
     """
@@ -212,16 +156,9 @@ def mettreTresor(c,tresor):
                 tresor un entier positif
     résultat l'entier représentant le trésor qui était sur la carte
     """
-	"""
-	tmp = getTresor(c)
-	c[1] = tresor
-	return tmp
-	"""
 
-	tmp = c.get("tresor")
-	c["tresor"]=tresor
-
-
+    tmp = c.get("tresor")
+    c["tresor"]=tresor
     pass
 
 def prendrePion(c, pion):
@@ -231,14 +168,9 @@ def prendrePion(c, pion):
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
     """
-	"""
-	tmp = bin(c[2])
-		tmp[pion-1] = 0
-	c[2] = int(tmp, 2)
-	"""
-	if possedePion(c, pion):
-			c["pions"].remove(i)
 
+    if possedePion(c, pion):
+            c["pions"].remove(i)
     pass
 
 def poserPion(c, pion):
@@ -248,17 +180,10 @@ def poserPion(c, pion):
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
     """
-	"""
-	if(bin(c[2])[pion-1] == 1):
-		tmp = bin(c[2])
-		tmp[pion-1] = 0
-		c[2] = int(tmp, 2)
-	else:
-	"""
+    
     if not possedePion(c,pion):
-		c["pions"].append(pion)
-
-	pass
+        c["pions"].append(pion)
+    pass
 
 def tournerHoraire(c):
     """
@@ -266,19 +191,12 @@ def tournerHoraire(c):
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien    
     """
-	"""
-	tmp = bin(c[2])
-	tmp.append(tmp[0])
-	tmp.pop(0)
-	c[2] = int(tmp, 2)
-	"""
-	tmp = c["nord"]
-	c["nord"] = c["ouest"]
-	c["ouest"] = c["sud"]
-	c["sud"] = c["est"]
-	c["est"] = c["tmp"]
-
-
+    
+    tmp = c["nord"]
+    c["nord"] = c["ouest"]
+    c["ouest"] = c["sud"]
+    c["sud"] = c["est"]
+    c["est"] = c["tmp"]
     pass
 
 def tournerAntiHoraire(c):
@@ -287,19 +205,12 @@ def tournerAntiHoraire(c):
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien    
     """
-	"""
-	tmp = bin(c[2])
-	tmp.reverse()
-	tmp.append(tmp[0])
-	tmp.pop(0)
-	tmp.reverse
-	c[2] = int(tmp, 2)
-	"""
-	tmp = c["nord"]
-	c["nord"] = c["est"]
-	c["est"] = c["sud"]
-	c["sud"] = c["ouest"]
-	c["ouest"] = c["tmp"]
+    
+    tmp = c["nord"]
+    c["nord"] = c["est"]
+    c["est"] = c["sud"]
+    c["sud"] = c["ouest"]
+    c["ouest"] = c["tmp"]
     pass
 
 def tourneAleatoire(c):
@@ -308,9 +219,10 @@ def tourneAleatoire(c):
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien    
     """
-	for(i=1, i<randint(0,3),i++)
-		tournerHoraire(c)
 
+    i = 0
+    for i in range(randint(0,3)):
+        tournerHoraire(c)
     pass
 
 def coderMurs(c):
@@ -325,12 +237,8 @@ def coderMurs(c):
     paramètre c une carte
     retourne un entier indice du caractère semi-graphique de la carte
     """
-	"""
-	return c[0]
-	"""
-	return int([bin(nord)],[bin(est)],[bin(sud)],[bin(ouest)],2)
-
-    pass
+    
+    return int([bin(nord)],[bin(est)],[bin(sud)],[bin(ouest)],2)
 
 def decoderMurs(c,code):
     """
@@ -339,10 +247,11 @@ def decoderMurs(c,code):
                code un entier codant les murs d'une carte
     Cette fonction modifie la carte mais ne retourne rien
     """    
-	c["nord"] = bool(bin(code)[0])
-	c["est"] = bool(bin(code)[1])
-	c["sud"] = bool(bin(code)[2])
-	c["ouest"] = bool(bin(code)[3])
+
+    c["nord"] = bool(bin(code)[0])
+    c["est"] = bool(bin(code)[1])
+    c["sud"] = bool(bin(code)[2])
+    c["ouest"] = bool(bin(code)[3])
 
     pass
 
@@ -352,8 +261,8 @@ def toChar(c):
     fournit le caractère semi graphique correspondant à la carte (voir la variable listeCartes au début de ce script)
     paramètres c une carte
     """
-	return listeCartes[coderMurs]
-    pass
+
+    return listeCartes[coderMurs]
 
 def passageNord(carte1,carte2):
     """
@@ -363,10 +272,10 @@ def passageNord(carte1,carte2):
     résultat un booléen
     """
 
-	if((carte1["nord"] == True)and(carte1["sud"] == True)):
-		return True
-	else : 
-		return false
+    if((carte1["nord"] == True)and(carte1["sud"] == True)):
+        return True
+    else : 
+        return False
     pass
 
 def passageSud(carte1,carte2):
@@ -377,10 +286,10 @@ def passageSud(carte1,carte2):
     résultat un booléen
     """
 
-	if((carte1["sud"] == True)and(carte1["nord"] == True)):
-		return True
-	else : 
-		return false
+    if((carte1["sud"] == True)and(carte1["nord"] == True)):
+        return True
+    else : 
+        return False
     pass
 
 def passageOuest(carte1,carte2):
@@ -391,11 +300,10 @@ def passageOuest(carte1,carte2):
     résultat un booléen
     """
 
-	if((carte1["ouest"] == True)and(carte1["est"] == True)):
-		return True
-	else : 
-		return false
-    pass
+    if((carte1["ouest"] == True)and(carte1["est"] == True)):
+        return True
+    else : 
+        return False
 
 def passageEst(carte1,carte2):
     """
@@ -405,11 +313,9 @@ def passageEst(carte1,carte2):
     résultat un booléen    
     """
 
-	if((carte1["est"] == True)and(carte1["ouest"] == True)):
-		return True
-	else : 
-		return false
-    pass
+    if((carte1["est"] == True)and(carte1["ouest"] == True)):
+        return True
+    else : 
+        return False
 
 if __name__=='__main__':
-	c1 = Carte(1,1,1,1)
