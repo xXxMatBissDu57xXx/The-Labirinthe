@@ -10,7 +10,7 @@
 """
 
 #-----------------------------------------
-# contructeur et accesseurs
+# constructeur et accesseurs
 #-----------------------------------------
 
 def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):
@@ -23,6 +23,12 @@ def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):
       valeurParDefaut la valeur par défaut
     résultat la matrice ayant les bonnes propriétés
     """
+    matrice = [[0 for x in range(nbColonnes)] for y in range(nbLignes)]
+    
+    for x in range(nbColonnes):
+        for y in range(nbLignes):
+            matrice[x][y] = valeurParDefaut
+    return matrice
     pass
 
 def getNbLignes(matrice):
@@ -107,3 +113,10 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
     """
     pass
 
+if __name__=='__main__':
+
+    matrice = Matrice(10,10,0)
+    for x in range(9):
+        for y in range(9):
+            print(matrice[x][y],sep ='',end='' )
+        print("")
