@@ -25,9 +25,8 @@ def ajouterTresor(joueur,tresor):
         tresor un entier strictement positif
     la fonction ne retourne rien mais modifie le joueur
     """
-    j=Joueur(joueur)
-    if tresor not in j[1]:
-      (j[1]).append(tresor)
+    if tresor not in joueur[1]:
+      (joueur[1]).append(tresor)
 
 def prochainTresor(joueur):
     """
@@ -36,9 +35,8 @@ def prochainTresor(joueur):
         joueur le joueur
     résultat un entier représentant le trésor ou None
     """
-    j=Joueur(joueur)
-    if len(j[1])>0:
-      return j[1][len(j[1])-1]
+    if len(joueur[1])>0:
+      return joueur[1][len(joueur[1])-1]
     else: 
       return None
 
@@ -49,8 +47,7 @@ def tresorTrouve(joueur):
         joueur le joueur
     la fonction ne retourne rien mais modifie le joueur
     """
-    j=Joueur(joueur)
-    pop.j[1][-len(j[1])-1]
+    joueur[1].pop(0)
 
 def getNbTresorsRestants(joueur):
     """
@@ -58,8 +55,7 @@ def getNbTresorsRestants(joueur):
     paramètre: joueur le joueur
     résultat: le nombre de trésors attribués au joueur
     """
-    j=Joueur(joueur)
-    return len(j[1])
+    return len(joueur[1])
 
 def getNom(joueur):
     """
@@ -67,8 +63,17 @@ def getNom(joueur):
     paramètre: joueur le joueur
     résultat: le nom du joueur 
     """
-    j=Joueur(joueur)
-    return j[0]
+    return joueur[0]
 
 if __name__=="__main__":
-  pass
+
+    j1 = Joueur("Mat Biss")
+    ajouterTresor(j1,28)
+    print("prochain Tresor (28):" + str(prochainTresor(j1)))
+    tresorTrouve(j1)
+    print(getNbTresorsRestants(j1))
+    print(getNom(j1))  
+    ajouterTresor(j1,10)  
+    print(getNbTresorsRestants(j1))
+
+    pass
