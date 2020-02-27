@@ -25,25 +25,30 @@ def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):
     """
     matrice = [[0 for x in range(nbColonnes)] for y in range(nbLignes)]
     
-    for x in range(nbColonnes):
-        for y in range(nbLignes):
+    for x in range(nbLignes):
+        for y in range(nbColonnes):
             matrice[x][y] = valeurParDefaut
     return matrice
-    pass
 
 def getNbLignes(matrice):
     """
     retourne le nombre de lignes de la matrice
     paramètre: matrice la matrice considérée
     """
-    pass
+    nb = 0
+    for i in matrice:
+        nb += 1
+    return nb
 
 def getNbColonnes(matrice):
     """
     retourne le nombre de colonnes de la matrice
     paramètre: matrice la matrice considérée
     """
-    pass
+    nb = 0
+    for i in matrice[0]:
+        nb += 1
+    return nb
 
 def getVal(matrice,ligne,colonne):
     """
@@ -52,7 +57,8 @@ def getVal(matrice,ligne,colonne):
                 ligne le numéro de la ligne (en commençant par 0)
                 colonne le numéro de la colonne (en commençant par 0)
     """
-    pass
+
+    return matrice[ligne][colonne]
 
 def setVal(matrice,ligne,colonne,valeur):
     """
@@ -63,6 +69,8 @@ def setVal(matrice,ligne,colonne,valeur):
                 valeur la valeur à stocker dans la matrice
     cette fonction ne retourne rien mais modifie la matrice
     """
+
+    matrice[ligne][colonne] = valeur
     pass
 
 
@@ -116,7 +124,17 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
 if __name__=='__main__':
 
     matrice = Matrice(10,10,0)
-    for x in range(9):
-        for y in range(9):
-            print(matrice[x][y],sep ='',end='' )
+    
+    for ligne in range(getNbLignes(matrice)):
+        for colonne in range(getNbColonnes(matrice)):
+            print(" " + str(matrice[ligne][colonne]),end='' )
         print("")
+    
+    setVal(matrice,1,5,2)
+    print(getVal(matrice, 5, 1))
+    
+    for ligne in range(getNbLignes(matrice)):
+        for colonne in range(getNbColonnes(matrice)):
+            print(" " + str(matrice[ligne][colonne]),end='' )
+        print("")
+    
