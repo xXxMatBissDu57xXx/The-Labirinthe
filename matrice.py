@@ -25,9 +25,9 @@ def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):
     """
     matrice = [[0 for x in range(nbColonnes)] for y in range(nbLignes)]
     
-    for x in range(nbLignes):
-        for y in range(nbColonnes):
-            matrice[x][y] = valeurParDefaut
+    for ligne in range(nbLignes):
+        for colonne in range(nbColonnes):
+            matrice[ligne][colonne] = valeurParDefaut
     return matrice
 
 def getNbLignes(matrice):
@@ -87,7 +87,10 @@ def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat la valeur qui a été ejectée lors du décalage
     """
-    pass
+    tmp = matrice[numLig][0]
+    for i in range(1, getNbColonnes(matrice)-1):
+        matrice[numLig][i] = matrice[numLig][i+1]
+    return tmp
 
 def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
     """
@@ -98,7 +101,11 @@ def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat: la valeur de la case "ejectée" par le décalage
     """
-    pass
+    tmp = matrice[numLig][getNbColonnes(matrice)-1]
+    for i in range(getNbColonnes(matrice)-1, 0,-1):
+        matrice[numLig][i] = matrice[numLig][i-1]
+    return tmp
+
 def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
     """
     decale la colonne numCol d'une case vers le haut en insérant une nouvelle
@@ -108,7 +115,10 @@ def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat: la valeur de la case "ejectée" par le décalage
     """
-    pass
+    tmp = matrice[0][numCol]
+    for i in range(0, getNbLignes(matrice)-1):
+        matrice[i][numCol] = matrice[i+1][numCol]
+    return tmp
 
 def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
     """
@@ -119,7 +129,10 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat: la valeur de la case "ejectée" par le décalage
     """
-    pass
+    tmp = matrice[getNbLignes(matrice)-1][numCol]
+    for i in range(getNbLignes(matrice)-1, 0, -1):
+        matrice[i][numCol] = matrice[i-1][numCol]
+    return tmp
 
 if __name__=='__main__':
 
@@ -132,7 +145,18 @@ if __name__=='__main__':
     
     setVal(matrice,1,5,2)
     print(getVal(matrice, 5, 1))
-    
+
+    for ligne in range(getNbLignes(matrice)):
+        for colonne in range(getNbColonnes(matrice)):
+            print(" " + str(matrice[ligne][colonne]),end='' )
+        print("")
+
+    print("")
+    decalageLigneAGauche(matrice,1)
+    decalageLigneADroite(matrice,1)
+    decalageColonneEnBas(matrice, 5)
+    decalageColonneEnHaut(matrice,5)
+
     for ligne in range(getNbLignes(matrice)):
         for colonne in range(getNbColonnes(matrice)):
             print(" " + str(matrice[ligne][colonne]),end='' )
