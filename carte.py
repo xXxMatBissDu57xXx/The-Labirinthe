@@ -272,6 +272,11 @@ def tournerHoraire(c):
 	tmp.pop(0)
 	c[2] = int(tmp, 2)
 	"""
+	tmp = c["nord"]
+	c["nord"] = c["ouest"]
+	c["ouest"] = c["sud"]
+	c["sud"] = c["est"]
+	c["est"] = c["tmp"]
 
 
     pass
@@ -290,6 +295,11 @@ def tournerAntiHoraire(c):
 	tmp.reverse
 	c[2] = int(tmp, 2)
 	"""
+	tmp = c["nord"]
+	c["nord"] = c["est"]
+	c["est"] = c["sud"]
+	c["sud"] = c["ouest"]
+	c["ouest"] = c["tmp"]
     pass
 
 def tourneAleatoire(c):
@@ -298,6 +308,9 @@ def tourneAleatoire(c):
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien    
     """
+	for(i=1, i<randint(0,3),i++)
+		tournerHoraire(c)
+
     pass
 
 def coderMurs(c):
@@ -315,7 +328,8 @@ def coderMurs(c):
 	"""
 	return c[0]
 	"""
-	
+	return int([bin(nord)],[bin(est)],[bin(sud)],[bin(ouest)],2)
+
     pass
 
 def decoderMurs(c,code):
@@ -325,6 +339,10 @@ def decoderMurs(c,code):
                code un entier codant les murs d'une carte
     Cette fonction modifie la carte mais ne retourne rien
     """    
+	c["nord"] = bool(bin(code)[0])
+	c["est"] = bool(bin(code)[1])
+	c["sud"] = bool(bin(code)[2])
+	c["ouest"] = bool(bin(code)[3])
 
     pass
 
@@ -334,6 +352,7 @@ def toChar(c):
     fournit le caractère semi graphique correspondant à la carte (voir la variable listeCartes au début de ce script)
     paramètres c une carte
     """
+	return listeCartes[coderMurs]
     pass
 
 def passageNord(carte1,carte2):
@@ -344,6 +363,10 @@ def passageNord(carte1,carte2):
     résultat un booléen
     """
 
+	if((carte1["nord"] == True)and(carte1["sud"] == True)):
+		return True
+	else : 
+		return false
     pass
 
 def passageSud(carte1,carte2):
@@ -353,6 +376,11 @@ def passageSud(carte1,carte2):
     paramètres carte1 et carte2 deux cartes
     résultat un booléen
     """
+
+	if((carte1["sud"] == True)and(carte1["nord"] == True)):
+		return True
+	else : 
+		return false
     pass
 
 def passageOuest(carte1,carte2):
@@ -362,6 +390,11 @@ def passageOuest(carte1,carte2):
     paramètres carte1 et carte2 deux cartes
     résultat un booléen
     """
+
+	if((carte1["ouest"] == True)and(carte1["est"] == True)):
+		return True
+	else : 
+		return false
     pass
 
 def passageEst(carte1,carte2):
@@ -371,6 +404,11 @@ def passageEst(carte1,carte2):
     paramètres carte1 et carte2 deux cartes
     résultat un booléen    
     """
+
+	if((carte1["est"] == True)and(carte1["ouest"] == True)):
+		return True
+	else : 
+		return false
     pass
 
 if __name__=='__main__':
