@@ -22,9 +22,15 @@ def Plateau(nbJoueurs, nbTresors):
                 ont été placée de manière aléatoire
               - la carte amovible qui n'a pas été placée sur le plateau
     """
+
+    plateau = Matrice(7,7, Carte(False, False, False,False))
+    carte = Carte(False,False,False,False)
+    plateau[0][0]["pions"].append(1)
+    if nbJoueurs>1 :
+        plateau[6][6]["pions"].append(2)
+
+    return (plateau,carte)
     pass
-
-
 
 def creerCartesAmovibles(tresorDebut,nbTresors):
     """
@@ -119,4 +125,14 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
     résultat: une liste de coordonées indiquant un chemin possible entre la case
               de départ et la case d'arrivée
     """
+    pass
+
+
+if __name__=='__main__':
+    plateau,carte = Plateau(2,1)
+    print(plateau[0][0]["pions"])
+    for ligne in range(getNbLignes(plateau)):
+        for colonne in range(getNbColonnes(plateau)):
+            print(" " + toChar(plateau[ligne][colonne]),end='' )
+        print("")
     pass

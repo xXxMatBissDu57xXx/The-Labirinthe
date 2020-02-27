@@ -238,7 +238,7 @@ def coderMurs(c):
     retourne un entier indice du caractère semi-graphique de la carte
     """
     
-    return int([bin(nord)],[bin(est)],[bin(sud)],[bin(ouest)],2)
+    return c["nord"]*8+c["est"]*4+c["sud"]*2+c["ouest"]
 
 def decoderMurs(c,code):
     """
@@ -262,7 +262,7 @@ def toChar(c):
     paramètres c une carte
     """
 
-    return listeCartes[coderMurs]
+    return listeCartes[coderMurs(c)]
 
 def passageNord(carte1,carte2):
     """
@@ -319,3 +319,4 @@ def passageEst(carte1,carte2):
         return False
 
 if __name__=='__main__':
+    pass
