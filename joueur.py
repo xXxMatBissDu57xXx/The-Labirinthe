@@ -75,5 +75,3 @@ if __name__=="__main__":
     print(getNom(j1))  
     ajouterTresor(j1,10)  
     print(getNbTresorsRestants(j1))
-
-    pass

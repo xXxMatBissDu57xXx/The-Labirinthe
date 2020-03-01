@@ -93,7 +93,6 @@ def getListePions(c):
     """
 
     return c.get("pions")
-    pass
 
 def setListePions(c,listePions):
     """
@@ -104,7 +103,6 @@ def setListePions(c,listePions):
     """
 
     c["pions"] = listePions
-    pass
 
 def getNbPions(c):
     """
@@ -159,7 +157,6 @@ def mettreTresor(c,tresor):
 
     tmp = c.get("tresor")
     c["tresor"]=tresor
-    pass
 
 def prendrePion(c, pion):
     """
@@ -171,7 +168,6 @@ def prendrePion(c, pion):
 
     if possedePion(c, pion):
             c["pions"].remove(i)
-    pass
 
 def poserPion(c, pion):
     """
@@ -183,7 +179,6 @@ def poserPion(c, pion):
     
     if not possedePion(c,pion):
         c["pions"].append(pion)
-    pass
 
 def tournerHoraire(c):
     """
@@ -197,7 +192,6 @@ def tournerHoraire(c):
     c["ouest"] = c["sud"]
     c["sud"] = c["est"]
     c["est"] = c["tmp"]
-    pass
 
 def tournerAntiHoraire(c):
     """
@@ -211,7 +205,6 @@ def tournerAntiHoraire(c):
     c["est"] = c["sud"]
     c["sud"] = c["ouest"]
     c["ouest"] = c["tmp"]
-    pass
 
 def tourneAleatoire(c):
     """
@@ -223,7 +216,6 @@ def tourneAleatoire(c):
     i = 0
     for i in range(randint(0,3)):
         tournerHoraire(c)
-    pass
 
 def coderMurs(c):
     """
@@ -253,9 +245,6 @@ def decoderMurs(c,code):
     c["sud"] = bool(bin(code)[2])
     c["ouest"] = bool(bin(code)[3])
 
-    pass
-
-
 def toChar(c):
     """
     fournit le caractère semi graphique correspondant à la carte (voir la variable listeCartes au début de ce script)
@@ -276,7 +265,6 @@ def passageNord(carte1,carte2):
         return True
     else : 
         return False
-    pass
 
 def passageSud(carte1,carte2):
     """
@@ -290,7 +278,6 @@ def passageSud(carte1,carte2):
         return True
     else : 
         return False
-    pass
 
 def passageOuest(carte1,carte2):
     """
