@@ -37,7 +37,7 @@ def estValide(c):
     paramètre: c une carte
     """
 
-    if([c.get(nord),c.get[est],c.get[sud],c.get(ouest)].count(1)<3):
+    if([c["nord"],c["est"],c["sud"],c["ouest"]].count(1)<3):
         return True
     else:
         return False
@@ -48,7 +48,7 @@ def murNord(c):
     paramètre: c une carte
     """
 
-    if(c.get(nord)==True):
+    if(c["nord"]==True):
         return True
     else:
         return False
@@ -59,7 +59,7 @@ def murSud(c):
     paramètre: c une carte
     """
 
-    if(c.get(sud)==True):
+    if(c["sud"]==True):
         return True
     else:
         return False
@@ -70,7 +70,7 @@ def murEst(c):
     paramètre: c une carte
     """
 
-    if(c.get(est)==True):
+    if(c["est"]==True):
         return True
     else:
         return False
@@ -81,7 +81,7 @@ def murOuest(c):
     paramètre: c une carte
     """
 
-    if(c.get(ouest)==True):
+    if(c["ouest"]==True):
         return True
     else:
         return False
@@ -92,7 +92,7 @@ def getListePions(c):
     paramètre: c une carte
     """
 
-    return c.get("pions")
+    return c["pions"]
 
 def setListePions(c,listePions):
     """
@@ -314,4 +314,18 @@ def passageEst(carte1,carte2):
         return False
 
 if __name__=='__main__':
+    c1 = Carte(False, False, False, False)
+    print(estValide(c1))
+    print(murNord(c1))
+    print(murEst(c1))
+    print(murOuest(c1))
+    print(murSud(c1))
+    print(getListePions(c1))
+    setListePions(c1, [1,2])
+    print(getListePions(c1))
+    print(getNbPions(c1))
+    print(possedePion(c1, 1))
+    print(possedePion(c1, 3))
+    
+
     pass
