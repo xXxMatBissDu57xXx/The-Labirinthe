@@ -90,6 +90,7 @@ def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):
     tmp = matrice[numLig][0]
     for i in range(1, getNbColonnes(matrice)-1):
         matrice[numLig][i] = matrice[numLig][i+1]
+    matrice[numLig][getNbColonnes(matrice)-1] = nouvelleValeur
     return tmp
 
 def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
@@ -104,6 +105,7 @@ def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
     tmp = matrice[numLig][getNbColonnes(matrice)-1]
     for i in range(getNbColonnes(matrice)-1, 0,-1):
         matrice[numLig][i] = matrice[numLig][i-1]
+    matrice[numLig][0] = nouvelleValeur
     return tmp
 
 def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
@@ -118,6 +120,7 @@ def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
     tmp = matrice[0][numCol]
     for i in range(0, getNbLignes(matrice)-1):
         matrice[i][numCol] = matrice[i+1][numCol]
+    matrice[getNbColonnes(matrice)-1][numCol] = nouvelleValeur
     return tmp
 
 def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
@@ -132,26 +135,17 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
     tmp = matrice[getNbLignes(matrice)-1][numCol]
     for i in range(getNbLignes(matrice)-1, 0, -1):
         matrice[i][numCol] = matrice[i-1][numCol]
+    matrice[0][numCol] = nouvelleValeur
+
     return tmp
 
 if __name__=='__main__':
 
     matrice = Matrice(10,10,0)
-    
-    for ligne in range(getNbLignes(matrice)):
-        for colonne in range(getNbColonnes(matrice)):
-            print(" " + str(matrice[ligne][colonne]),end='' )
-        print("")
-    
-    setVal(matrice,1,5,2)
-    print(getVal(matrice, 5, 1))
-
-    for ligne in range(getNbLignes(matrice)):
-        for colonne in range(getNbColonnes(matrice)):
-            print(" " + str(matrice[ligne][colonne]),end='' )
-        print("")
-
-    print("")
+    print(getNbColonnes(matrice))
+    print(getNbLignes(matrice))
+    setVal(matrice,0,5,2)
+    print(getVal(matrice, 1, 5))
     decalageLigneAGauche(matrice,1)
     decalageLigneADroite(matrice,1)
     decalageColonneEnBas(matrice, 5)
@@ -161,4 +155,10 @@ if __name__=='__main__':
         for colonne in range(getNbColonnes(matrice)):
             print(" " + str(matrice[ligne][colonne]),end='' )
         print("")
-    
+    print(decalageColonneEnHaut(matrice, 5))
+    print(decalageColonneEnHaut(matrice, 5, 4))
+    decalageLigneADroite(matrice, 7, 8)
+    for ligne in range(getNbLignes(matrice)):
+        for colonne in range(getNbColonnes(matrice)):
+            print(" " + str(matrice[ligne][colonne]),end='' )
+        print("")
