@@ -23,14 +23,18 @@ def Plateau(nbJoueurs, nbTresors):
               - la carte amovible qui n'a pas été placée sur le plateau
     """
 
-    plateau = Matrice(7,7, Carte(False, False, False,False))
-    carte = Carte(False,False,False,False)
-    plateau[0][0]["pions"].append(1)
-    if nbJoueurs>1 :
-        plateau[6][6]["pions"].append(2)
+    cartes = creerCartesAmovibles(1, nbTresors)
 
-    return (plateau,carte)
-    pass
+    #PLACER LES CARTES
+    plateau = Matrice(7,7, Carte(False, False, False, False))
+    for ligne in range(7) :
+        for case in range(7) :
+            plateau[ligne][case] = cartes[-1]
+            cartes.pop()
+
+    #PLACER LES JOUEURS ?
+
+    return (plateau,cartes[0])
 
 def creerCartesAmovibles(tresorDebut,nbTresors):
     """
@@ -41,7 +45,19 @@ def creerCartesAmovibles(tresorDebut,nbTresors):
                 nbTresors: le nombre total de trésor à créer
     résultat: la liste mélangée aléatoirement des cartes amovibles créees
     """
-    pass
+    cartes = []
+    tresors = list(range(1, nbTresors+1))
+
+    for i in range(50) :
+        cartes.append(Carte(True, True, True, True))
+        while not estValide( cartes[-1] ) :
+            decoderMurs(cartes[-1], random.randint(0, 15))
+        if tresors :
+            cartes[i]["tresor"] = tresors.pop()
+            
+    random.shuffle(cartes)
+
+    return cartes
 
 def prendreTresorPlateau(plateau,lig,col,numTresor):
     """
@@ -54,7 +70,13 @@ def prendreTresorPlateau(plateau,lig,col,numTresor):
                 numTresor: le numéro du trésor à prendre sur la carte
     resultat: un booléen indiquant si le trésor était bien sur la carte considérée
     """
-    pass
+
+    if plateau[lig][col]["tresor"] == numTresor :
+        plateau[lig][col]["tresor"] = 0
+        return True
+    return False
+
+    return
 
 def getCoordonneesTresor(plateau,numTresor):
     """
@@ -64,7 +86,13 @@ def getCoordonneesTresor(plateau,numTresor):
     resultat: un couple d'entier donnant les coordonnées du trésor ou None si
               le trésor n'est pas sur le plateau
     """
-    pass
+
+    for ligne in range(7):
+        for case in range(7):
+            if plateau[ligne][case]["tresor"] == numTresor :
+                return (ligne,case)
+    else : 
+        return None
 
 def getCoordonneesJoueur(plateau,numJoueur):
     """
@@ -74,8 +102,14 @@ def getCoordonneesJoueur(plateau,numJoueur):
     resultat: un couple d'entier donnant les coordonnées du joueur ou None si
               le joueur n'est pas sur le plateau
     """
-    pass
 
+    for ligne in range(7):
+        for case in range(7):
+            if numJoueur in plateau[ligne][case]["pions"]:
+                return (ligne,case)
+    else : 
+        return None
+    
 def prendrePionPlateau(plateau,lin,col,numJoueur):
     """
     prend le pion du joueur sur la carte qui se trouve en (lig,col) du plateau
@@ -85,7 +119,12 @@ def prendrePionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    pass
+
+    if numJoueur in plateau[lin][col]["pions"] :
+        plateau[lin][col]["pions"].remove(numJoueur)
+        return True
+    return False
+
 def poserPionPlateau(plateau,lin,col,numJoueur):
     """
     met le pion du joueur sur la carte qui se trouve en (lig,col) du plateau
@@ -95,8 +134,8 @@ def poserPionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    pass
-
+    if numJoueur not in plateau[lin][col]["pions"] :
+        plateau[lin][col]["pions"].append(numJoueur)
 
 def accessible(plateau,ligD,colD,ligA,colA):
     """
@@ -109,7 +148,30 @@ def accessible(plateau,ligD,colD,ligA,colA):
     résultat: un boolean indiquant s'il existe un chemin entre la case de départ
               et la case d'arrivée
     """
-    pass
+    estAccessible = False
+
+    if passageNord(plateau[ligD][colD], plateau[ligD-1][colD]):
+        if (ligD-1, colD) == (ligA, colA):
+            return True
+        estAccessible = accessible(plateau, ligD-1, colD, ligA, colA)
+
+    if passageSud(plateau[ligD][colD], plateau[ligD+1][colD]):
+        if (ligD+1, colD) == (ligA, colA):
+            return True
+        estAccessible = accessible(plateau, ligD+1, colD, ligA, colA)
+
+    if passageEst(plateau[ligD][colD], plateau[ligD][colD+1]):
+        if (ligD, colD+1) == (ligA, colA):
+            return True
+        estAccessible = accessible(plateau, ligD, colD+1, ligA, colA)
+
+    if passageOuest(plateau[ligD][colD], plateau[ligD][colD-1]):
+        if (ligD, colD-1) == (ligA, colA):
+            return True
+        estAccessible = accessible(plateau, ligD, colD-1, ligA, colA)
+    
+
+    return estAccessible
 
 def accessibleDist(plateau,ligD,colD,ligA,colA):
     """
@@ -127,12 +189,25 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
     """
     pass
 
-
 if __name__=='__main__':
-    plateau,carte = Plateau(2,1)
-    print(plateau[0][0]["pions"])
-    for ligne in range(getNbLignes(plateau)):
-        for colonne in range(getNbColonnes(plateau)):
-            print(" " + toChar(plateau[ligne][colonne]),end='' )
-        print("")
-    pass
+    plateau,carte = Plateau(2,8)
+    for ligne in plateau :
+        for case in ligne :
+            if case["tresor"]:
+                print(str(case["tresor"])+ toChar(case), end = '')
+            else :
+                print(' ' + toChar(case),  end ='')
+        else :
+            print("")
+    else :
+        print(str(carte["tresor"])+ toChar(case))
+    
+    print(prendreTresorPlateau(plateau,0,0,0))
+    print(getCoordonneesTresor(plateau, 4))
+    print(getCoordonneesTresor(plateau, 9))
+    print(getCoordonneesJoueur(plateau, 1))
+    print('')
+    print(prendrePionPlateau(plateau, 4, 4, 1))
+    poserPionPlateau(plateau, 4,4,1)
+    print(prendrePionPlateau(plateau, 4, 4, 1))
+    print(prendrePionPlateau(plateau, 4, 4, 1))
