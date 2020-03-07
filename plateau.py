@@ -26,13 +26,21 @@ def Plateau(nbJoueurs, nbTresors):
     cartes = creerCartesAmovibles(1, nbTresors)
 
     #PLACER LES CARTES
-    plateau = Matrice(7,7, Carte(False, False, False, False))
+    plateau = Matrice(7,7, None)
     for ligne in range(7) :
         for case in range(7) :
             plateau[ligne][case] = cartes[-1]
             cartes.pop()
 
-    #PLACER LES JOUEURS ?
+    #PLACER LES JOUEURS
+    poserPionPlateau(plateau, 0, 0, 1)
+    if nbJoueurs>1:
+        poserPionPlateau(plateau, 6, 6, 2)
+        if nbJoueurs>2:
+            poserPionPlateau(plateau, 0, 6, 3)
+            if nbJoueurs >3:
+                poserPionPlateau(plateau, 6, 0, 4)
+
 
     return (plateau,cartes[0])
 
@@ -50,6 +58,7 @@ def creerCartesAmovibles(tresorDebut,nbTresors):
 
     for i in range(50) :
         cartes.append(Carte(True, True, True, True))
+        cartes[i]["pions"] = []
         while not estValide( cartes[-1] ) :
             decoderMurs(cartes[-1], random.randint(0, 15))
         if tresors :
@@ -134,7 +143,10 @@ def poserPionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    poserPion(plateau[lin][col], 1)
+    pions = getListePions(plateau[lin][col])
+    if numJoueur not in pions :
+        pions.append(numJoueur)
+        plateau[lin][col]["pions"] = pions
 
 def accessible(plateau,ligD,colD,ligA,colA):
     """
@@ -147,30 +159,7 @@ def accessible(plateau,ligD,colD,ligA,colA):
     résultat: un boolean indiquant s'il existe un chemin entre la case de départ
               et la case d'arrivée
     """
-    estAccessible = False
-
-    if passageNord(plateau[ligD][colD], plateau[ligD-1][colD]):
-        if (ligD-1, colD) == (ligA, colA):
-            return True
-        estAccessible = accessible(plateau, ligD-1, colD, ligA, colA)
-
-    if passageSud(plateau[ligD][colD], plateau[ligD+1][colD]):
-        if (ligD+1, colD) == (ligA, colA):
-            return True
-        estAccessible = accessible(plateau, ligD+1, colD, ligA, colA)
-
-    if passageEst(plateau[ligD][colD], plateau[ligD][colD+1]):
-        if (ligD, colD+1) == (ligA, colA):
-            return True
-        estAccessible = accessible(plateau, ligD, colD+1, ligA, colA)
-
-    if passageOuest(plateau[ligD][colD], plateau[ligD][colD-1]):
-        if (ligD, colD-1) == (ligA, colA):
-            return True
-        estAccessible = accessible(plateau, ligD, colD-1, ligA, colA)
-    
-
-    return estAccessible
+    pass
 
 def accessibleDist(plateau,ligD,colD,ligA,colA):
     """
@@ -189,45 +178,36 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
     pass
 
 if __name__=='__main__':
-    plateau,carte = Plateau(2,8)
 
-    print("AFFICHAGE PIONS")
-    for ligne in plateau :
-        for case in ligne :
-            print(str(case["pions"])+ toChar(case), end = '')
-        else :
-            print("")
-    else :
-        print(str(carte["pions"])+ toChar(case))
+    # 9 FONCTIONS
+    nbJoueurs = 2
+    nbTresors = 8
+    plateau,carte = Plateau(nbJoueurs,nbTresors)
+    cartes = creerCartesAmovibles(1, nbTresors)
 
-    poserPionPlateau(plateau, 4,4,1)
+    tmp = 0
+    for carte in cartes :
+        if carte["tresor"]:
+            tmp += 1
+    assert tmp == nbTresors, "Plateau"
 
-    for ligne in plateau :
-        for case in ligne :
-            print(str(case["pions"])+ toChar(case), end = '')
-        else :
-            print("")
-    else :
-        print(str(carte["pions"])+ toChar(case))
+    assert len(cartes) == 50, "creerCartesAmovibles"
+    for carte in cartes :
+        assert estValide(carte), "creerCartesAmovibles"
 
-"""
-    print("AFFICHAGE TRESORS")
-    for ligne in plateau :
-        for case in ligne :
-            print(str(case["tresor"])+ toChar(case), end = '')
-        else :
-            print("")
-    else :
-        print(str(carte["tresor"])+ toChar(case))
-    
-    print(prendreTresorPlateau(plateau,0,0,0))
-    print(getCoordonneesTresor(plateau, 4))
-    print(getCoordonneesTresor(plateau, 9))
-    print(getCoordonneesJoueur(plateau, 1))
-    print('')
-    print("coord : " + str(getCoordonneesJoueur(plateau, 1)))
-    print(getCoordonneesJoueur(plateau, 2))
+    plateau[0][0]["tresor"] = 100
+    assert prendreTresorPlateau(plateau, 0, 0, 100), "prendreTresorPlateau"
+    assert not prendreTresorPlateau(plateau, 0, 0, 100), "prendreTresorPlateau"
 
-    print(prendrePionPlateau(plateau, 4, 4, 1))
-    print(prendrePionPlateau(plateau, 4, 4, 1))
-"""
+    plateau[5][5]["tresor"] = 100
+    assert getCoordonneesTresor(plateau, 100) == (5, 5), "getCoordonneesTresor"
+
+
+    plateau[5][5]["pions"] = [5]
+    assert getCoordonneesJoueur(plateau, 5) == (5,5), "getCoordonneesJoueur"
+
+    assert prendrePionPlateau(plateau, 5, 5, 5), "prendrePionPlateau"
+    assert not prendrePionPlateau(plateau, 5, 5, 5), "prendrePionPlateau"
+
+    poserPionPlateau(plateau, 2, 2, 3)
+    assert getCoordonneesJoueur(plateau, 3) ==(2,2), "poserPionsPlateau"
