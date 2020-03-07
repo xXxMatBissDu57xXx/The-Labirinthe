@@ -405,5 +405,3 @@ if __name__=='__main__':
 
     assert prendreTresor(c1)==81, "prendreTresor"
     assert getTresor(c1)== 0, "prendreTresor"
-
-    print("OK")

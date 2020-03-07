@@ -141,24 +141,30 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
 
 if __name__=='__main__':
 
-    matrice = Matrice(10,10,0)
-    print(getNbColonnes(matrice))
-    print(getNbLignes(matrice))
-    setVal(matrice,0,5,2)
-    print(getVal(matrice, 1, 5))
-    decalageLigneAGauche(matrice,1)
-    decalageLigneADroite(matrice,1)
-    decalageColonneEnBas(matrice, 5)
-    decalageColonneEnHaut(matrice,5)
+    # 9 FONCTIONS
 
-    for ligne in range(getNbLignes(matrice)):
-        for colonne in range(getNbColonnes(matrice)):
-            print(" " + str(matrice[ligne][colonne]),end='' )
-        print("")
-    print(decalageColonneEnHaut(matrice, 5))
-    print(decalageColonneEnHaut(matrice, 5, 4))
-    decalageLigneADroite(matrice, 7, 8)
-    for ligne in range(getNbLignes(matrice)):
-        for colonne in range(getNbColonnes(matrice)):
-            print(" " + str(matrice[ligne][colonne]),end='' )
-        print("")
+    matrice = Matrice(2,2,0)
+    assert matrice == [[0,0],[0,0]], "Matrice"
+
+    assert getNbColonnes(matrice) == 2, "getNbColonnes"
+
+    assert getNbLignes(matrice) == 2, "getNbLignes"
+    
+    assert getVal(matrice, 0, 0) == 0, "getVal"
+    matrice[1][1] = 4
+    assert getVal(matrice, 1, 1) == 4, "getVal"
+
+    setVal(matrice, 0,0, 1)
+    assert matrice[0][0] == 1, "setVal"
+
+    assert decalageLigneAGauche(matrice,1, 5)==0, "decalageLigneAGauche"
+    assert matrice[1][1] == 5, "decalageLigneAGauche"
+
+    assert decalageLigneADroite(matrice,0, 2)==0, "decalageLigneADroite"
+    assert matrice[0][0] == 2, "decalageLigneAGauche"
+
+    assert decalageColonneEnBas(matrice,1, 3)==5, "decalageColonneEnBas"
+    assert matrice[0][1] == 3, "decalageColonneEnBas"
+
+    assert decalageColonneEnHaut(matrice,0, 5)==2, "decalageColonneEnHaut"
+    assert matrice[1][0] == 5, "decalageColonneEnHaut"
