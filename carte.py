@@ -169,7 +169,6 @@ def prendrePion(c, pion):
 
     if possedePion(c, pion):
             c["pions"].remove(pion)
-    pass
 
 def poserPion(c, pion):
     """
@@ -178,10 +177,11 @@ def poserPion(c, pion):
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
     """
+    pions = getListePions(c)
     
-    if not possedePion(c,pion):
-        c["pions"].append(pion)
-    pass
+    if not possedePion(c, pion):
+        pions.append(pion)
+    c["pions"]=pions
 
 def tournerHoraire(c):
     """
@@ -322,47 +322,88 @@ if __name__=='__main__':
 
     c1 = Carte(False, False, False, False)
     c2 = Carte(True, True, True, True)
-    """VERIFICATION MURS"""
-    for c in cartes :
-        print("La Tuile : " + toChar(c))
-        print("Est valide : " + str(estValide(c)))
-        if estValide(c) :
-            print("Mur Nord ? " + str(murNord(c)))
-            print("Mur Est ? " + str(murEst(c)))
-            print("Mur Sud ? " + str(murSud(c)))
-            print("Mur Ouest ? " + str(murOuest(c)))
-            print("")
-        print("")
-    c3 = Carte(True,True,False,False)
-    print("Coin : " + toChar(c3))
-    tournerHoraire(c3)
-    print("Coin Horaire : " + toChar(c3))
-    tournerAntiHoraire(c3)
-    print("Coin AntiHoraire : " + toChar(c3))
-    tourneAleatoire(c3)
-    print("Coin Random : " + toChar(c3))
+    
+    assert c1 == {"nord":False, "est":False, "sud":False, "ouest":False, "tresor":0, "pions":[]}, "Carte"
+    assert c2 == {"nord":True, "est":True, "sud":True, "ouest":True, "tresor":0, "pions":[]}, "Carte"
 
+    assert coderMurs(c1) == 0, "coderMurs"
+    assert coderMurs(c2) == 15, "coderMurs"
+
+    decoderMurs(c1,7)
+    assert coderMurs(c1) == 7, "decoderMurs"
+    decoderMurs(c1,0)
+
+
+    """VERIFICATION MURS"""
+    assert estValide(c1), "estValide"
+    assert not estValide(c2), "estValide"
+
+    assert not murNord(c1), "murNord"
+    assert murNord(c2), "murNord"
+
+    assert not murEst(c1), "murEst"
+    assert murEst(c2), "murEst"
+
+    assert not murSud(c1), "murSud"
+    assert murSud(c2), "murSud"
+
+    assert not murOuest(c1), "murOuest"
+    assert murOuest(c2), "murOuest"
+
+    assert passageNord(c1, c1), "passageNord"
+    assert not passageNord(c2, c2), "passageNord"
+
+    assert passageEst(c1, c1), "passageEst"
+    assert not passageEst(c2, c2), "passageEst"
+
+    assert passageSud(c1, c1), "passageSud"
+    assert not passageSud(c2, c2), "passageSud"
+
+    assert passageOuest(c1, c1), "passageOuest"
+    assert not passageOuest(c2, c2), "passageOuest"
+
+    c3 = Carte(True,True,False,False)
+    assert toChar(c3) == listeCartes[3], "toChar"
+
+    tournerHoraire(c3)
+    assert toChar(c3) == listeCartes[6], "tournerHoraire"
+
+    tournerAntiHoraire(c3)
+    assert toChar(c3) == listeCartes[3], "tournerAntiHoraire"
+    
+    tourneAleatoire(c3)
+    assert toChar(c3) in [listeCartes[3],listeCartes[6],listeCartes[9],listeCartes[12]], "tournerAleatoire"
 
 
     """VERIFICATION PIONS"""
-    """getlistepions possedepion prendrepion poserPion getNbPions setListePions"""
-    poserPion(c1, 1)
-    print(possedePion(c1, 1))
-    print(possedePion(c1, 2))
-    print(getListePions(c1))
-    print(getNbPions(c1))
-    poserPion(c1, 2)
-    print(getNbPions(c1))
-    prendrePion(c1, 1)
-    setListePions(c1,[3,4])
-    print(getListePions(c1))
-    print("")
+    c1["pions"] = [80]
+    assert getListePions(c1)==[80], "getListePions"
+    c1["pions"] = []
 
+    poserPion(c1,1)
+    assert getListePions(c1)==[1], "poserPion"
+
+    setListePions(c1, [2])
+    assert getListePions(c1)==[2], "setListePions"
+
+    assert possedePion(c1, 2)==True, "possedePion"
+    assert possedePion(c1, 1)==False, "possedePion"
+
+    prendrePion(c1, 2)
+    assert possedePion(c1, 1)==False, "prendrePion"
+
+    assert getNbPions(c1)==0, "getNbPions"
+    c1["pions"] = [80]
+    assert getNbPions(c1)==1, "getNbPions"
 
     """VERIFICATION TRESOR"""
-    """getTresor prendreTresor mettreTresor"""
-    print(getTresor(c1))
-    print(mettreTresor(c1, 1))
-    print(mettreTresor(c1, 25))
-    print(getTresor(c1))
-    
+    c1["tresor"]=80
+    assert getTresor(c1)==80, "getTresor"
+
+    assert mettreTresor(c1, 81)==80, "mettreTresor"
+    assert getTresor(c1)==81, "mettreTresor"
+
+    assert prendreTresor(c1)==81, "prendreTresor"
+    assert getTresor(c1)== 0, "prendreTresor"
+
+    print("OK")

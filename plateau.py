@@ -103,8 +103,8 @@ def getCoordonneesJoueur(plateau,numJoueur):
               le joueur n'est pas sur le plateau
     """
 
-    for ligne in range(7):
-        for case in range(7):
+    for ligne in list(range(7)):
+        for case in list(range(7)):
             if numJoueur in plateau[ligne][case]["pions"]:
                 return (ligne,case)
     else : 
@@ -134,8 +134,7 @@ def poserPionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    if numJoueur not in plateau[lin][col]["pions"] :
-        plateau[lin][col]["pions"].append(numJoueur)
+    poserPion(plateau[lin][col], 1)
 
 def accessible(plateau,ligD,colD,ligA,colA):
     """
@@ -191,12 +190,31 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
 
 if __name__=='__main__':
     plateau,carte = Plateau(2,8)
+
+    print("AFFICHAGE PIONS")
     for ligne in plateau :
         for case in ligne :
-            if case["tresor"]:
-                print(str(case["tresor"])+ toChar(case), end = '')
-            else :
-                print(' ' + toChar(case),  end ='')
+            print(str(case["pions"])+ toChar(case), end = '')
+        else :
+            print("")
+    else :
+        print(str(carte["pions"])+ toChar(case))
+
+    poserPionPlateau(plateau, 4,4,1)
+
+    for ligne in plateau :
+        for case in ligne :
+            print(str(case["pions"])+ toChar(case), end = '')
+        else :
+            print("")
+    else :
+        print(str(carte["pions"])+ toChar(case))
+
+"""
+    print("AFFICHAGE TRESORS")
+    for ligne in plateau :
+        for case in ligne :
+            print(str(case["tresor"])+ toChar(case), end = '')
         else :
             print("")
     else :
@@ -207,7 +225,9 @@ if __name__=='__main__':
     print(getCoordonneesTresor(plateau, 9))
     print(getCoordonneesJoueur(plateau, 1))
     print('')
+    print("coord : " + str(getCoordonneesJoueur(plateau, 1)))
+    print(getCoordonneesJoueur(plateau, 2))
+
     print(prendrePionPlateau(plateau, 4, 4, 1))
-    poserPionPlateau(plateau, 4,4,1)
     print(prendrePionPlateau(plateau, 4, 4, 1))
-    print(prendrePionPlateau(plateau, 4, 4, 1))
+"""
