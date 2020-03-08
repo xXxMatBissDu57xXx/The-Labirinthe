@@ -159,7 +159,32 @@ def accessible(plateau,ligD,colD,ligA,colA):
     résultat: un boolean indiquant s'il existe un chemin entre la case de départ
               et la case d'arrivée
     """
-    pass
+    explorateur = Matrice(7, 7, False)
+    action = True
+
+    explorateur[ligD][colD] = True
+    
+    while action and explorateur[ligA][colA] == False:
+        action = False
+        for i in range(1, 50):
+            for ligne in range(7):
+                for case in range(7):
+                    if explorateur[ligne][case] == i:
+                        if ligne-1 > 0 and not explorateur[ligne-1][case]  and passageNord(plateau[ligne][case], plateau[ligne-1][case]) :
+                            explorateur[ligne-1][case] = True
+                            action = True
+                        if  case+1 < 6 and not explorateur[ligne][case+1] and passageEst(plateau[ligne][case], plateau[ligne][case+1]):
+                            explorateur[ligne][case+1] = True
+                            action = True
+                        if  ligne+1 < 6 and not explorateur[ligne+1][case] and passageSud(plateau[ligne][case], plateau[ligne+1][case]):
+                            explorateur[ligne+1][case] = True
+                            action = True
+                        if  case-1 > 0 and not explorateur[ligne][case-1] and passageOuest(plateau[ligne][case], plateau[ligne][case-1]):
+                            explorateur[ligne][case-1] = True
+                            action = True
+
+    return explorateur[ligA][colA]
+
 
 def accessibleDist(plateau,ligD,colD,ligA,colA):
     """
@@ -175,7 +200,49 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
     résultat: une liste de coordonées indiquant un chemin possible entre la case
               de départ et la case d'arrivée
     """
-    pass
+    explorateur = Matrice(7, 7, None)
+    action = True
+
+    for ligne in range(7):
+        for case in range(7):
+            explorateur[ligne][case] = []
+    explorateur[ligD][colD] = [(ligD, colD)]
+    
+    while action and explorateur[ligA][colA] == []:
+        action = False
+        for i in range(1, 50):
+            for ligne in range(7):
+                for case in range(7):
+                    if len(explorateur[ligne][case]) == i:
+                        if  ligne > 0 and explorateur[ligne-1][case] == [] and passageNord(plateau[ligne][case], plateau[ligne-1][case]) :
+                            explorateur[ligne-1][case] = explorateur[ligne][case].copy()
+                            explorateur[ligne-1][case].append((ligne, case))
+                            action = True
+                        if  case < 6 and explorateur[ligne][case+1] == [] and passageEst(plateau[ligne][case], plateau[ligne][case+1]):
+                            explorateur[ligne][case+1] = explorateur[ligne][case].copy()
+                            explorateur[ligne][case+1].append((ligne, case))
+                            action = True
+                        if  ligne < 6 and explorateur[ligne+1][case] == [] and passageSud(plateau[ligne][case], plateau[ligne+1][case]):
+                            explorateur[ligne+1][case] = explorateur[ligne][case].copy()
+                            explorateur[ligne+1][case].append((ligne, case))
+                            action = True
+                        if  case > 0 and explorateur[ligne][case-1] == [] and passageOuest(plateau[ligne][case], plateau[ligne][case-1]):
+                            explorateur[ligne][case-1] = explorateur[ligne][case].copy()
+                            explorateur[ligne][case-1].append((ligne, case))
+                            action = True
+
+    #AFFICHAGE ?
+    if False :
+        for ligne in explorateur:
+            for case in ligne :
+                print("[", end = ' ')
+                for i in range(len(case)):
+                    print(case[i], end = ' ')
+                print("]", end = ' ')
+            else :
+                print(" ")
+
+    return explorateur[ligA][colA]
 
 if __name__=='__main__':
 
@@ -211,3 +278,18 @@ if __name__=='__main__':
 
     poserPionPlateau(plateau, 2, 2, 3)
     assert getCoordonneesJoueur(plateau, 3) ==(2,2), "poserPionsPlateau"
+
+
+    decoderMurs(plateau[0][0], 0)
+    decoderMurs(plateau[1][0], 0)
+    decoderMurs(plateau[1][1], 0)
+    decoderMurs(plateau[1][2], 0)
+    decoderMurs(plateau[2][2], 0)
+    assert accessible(plateau, 0, 0, 2, 2), "accessible"
+    decoderMurs(plateau[2][2], 15)
+    assert not accessible(plateau, 0, 0, 2, 2), "accessible"
+
+    decoderMurs(plateau[2][2], 0)
+    assert accessibleDist(plateau, 0, 0, 2, 2), "accessibleDist"
+    decoderMurs(plateau[2][2], 15)
+    assert not accessibleDist(plateau, 0, 0, 2, 2), "accessibleDist"
