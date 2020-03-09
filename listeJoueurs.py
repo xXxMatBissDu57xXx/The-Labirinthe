@@ -192,7 +192,7 @@ def joueurCourantAFini(joueurs):
     for i in range(len(joueurs)-1):
       if joueurs[i][1][0] ==0:
         if len(joueurs[i][0][1]) ==0:
-        return True
+          return True
     return False
 
 
