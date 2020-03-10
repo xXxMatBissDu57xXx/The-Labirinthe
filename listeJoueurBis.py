@@ -20,7 +20,7 @@ def ListeJoueurs(nomsJoueurs):
     """
     joueurs=[]
     for i in nomsJoueurs:
-      joueurs.append(i={"nom"=i})
+      joueurs.append(Joueur(i))
     return joueurs
 
 def ajouterJoueur(joueurs, joueur):
@@ -30,7 +30,7 @@ def ajouterJoueur(joueurs, joueur):
                 joueur le joueur à ajouter
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    joueurs.append(joueur={"nom"=joueur})
+    joueurs.append(Joueur(joueur))
 
 def initAleatoireJoueurCourant(joueurs):
     """
@@ -42,13 +42,11 @@ def initAleatoireJoueurCourant(joueurs):
     listeBis=joueurs
     joueurs=[]
     joueurs.append(listeBis[indiceCourant])
-    joueurs[indiceCourant]["numero"]=0
+    joueurs[0]["numero"]=0
     listeBis.pop(indiceCourant)
-    j=1
-    for i in listeBis:
-      joueurs.append(i)
-      joueurs[i]["numero"]=j
-      j +=1
+    for i in range(len(listeBis)-1):
+      joueurs.append(listeBis[i])
+      joueurs[i]["numero"]=i+1
 
 def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
     """
@@ -194,17 +192,17 @@ def joueurCourantAFini(joueurs):
     for i in range(len(joueurs)-1):
       if joueurs[i]["numero"] ==0:
         if len(joueurs[i]["tresors"]) ==0:
-        return True
+          return True
     return False
 
 
 if __name__=="__main__":
-  liste=[(("Mat"),[]),(("Dams"),[])]
+  liste=["Mat","Dams"]
   print(ListeJoueurs(liste))
-  ajouterJoueur(liste,(("Gui"),[]))
-  ajouterJoueur(liste,(("Briane"),[]))
+  ajouterJoueur(liste,"Gui")
+  ajouterJoueur(liste,"Briane")
   print(ListeJoueurs(liste))
-  initAleatoireJoueurCourant(liste)
+  initAleatoireJoueurCourant(ListeJoueurs(liste))
   print(liste)
   print(changerJoueurCourant(liste))
   
