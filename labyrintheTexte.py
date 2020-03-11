@@ -162,7 +162,15 @@ def saisirOrdre(lmt):
               c'est à dire le numéro de la ligne ou de la colonne où insérer la carte
               si l'ordre saisi n'est pas valide la focntion retourne (-1,-1)
     """
-    pass
+    ordre = list(input("Entrez votre ordre : "))
+    card = ['N', 'E', 'S', 'O']
+    vals = ['1','3','5']
+
+    if ordre[0] and (ordre[0] == 'T' ) :
+        return('T', -1)
+    if ordre[0] and ordre[1] and (ordre[0] in card and ordre[1] in vals):
+        return(ordre[0], int(ordre[1]))
+    return(-1, -1)
 
 def saisirDeplacement(lmt):
     """
@@ -170,7 +178,10 @@ def saisirDeplacement(lmt):
     paramètre: lmt: une vue texte de labyrinthe
     résultat: un couple d'entier (lin,col) indiquant les coordonnées de la case destination. Si l'utilisateur a entré des coordonnées incorrecte la fonction retourne (-1,-1)
     """    
-    pass
+    depl = list(input("Entrez votre déplacement : "))
+    if depl[0] in str(list(range(8))) and depl[1] in str(list(range(8))):
+        return (depl[0], depl[1])
+    return(-1, -1)
         
 # demarre la partie en mode texte
 def demarrer(lmt):
@@ -240,6 +251,8 @@ def demarrer(lmt):
 #------------------------------
 
 if __name__=='__main__': 
+    while 1 :
+        print(saisirDeplacement(None))
     print("Bienvenue dans le jeu du labyrinthe")
     # saisie des noms de joueurs
     listeJoueurs=[]
