@@ -25,14 +25,16 @@ def Labyrinthe(nomsJoueurs=["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0):
                 nbTresorMax le nombre de trésors maximum distribué à chaque joueur
     résultat: le labyrinthe crée
     """
-    nbJoueurs=ListeJoueurs(nomsJoueurs)
-    print("Importation de la liste de joueurs réalisée :\n\t",nbJoueurs)
-    distribuerTresors(nbJoueurs,nbTresors=24, nbTresorMax=2)
-    print("Distribution des tresors réalisée :\n\t",nbJoueurs)
-    initAleatoireJoueurCourant(nbJoueurs)
-    print("Initiation du joueur courant realisée:\n\t",nbJoueurs)
+    labyrinthe = {"plateau": None, "carte":None, "joueurs": ListeJoueurs(nomsJoueurs)}
+
+    labyrinthe["plateau"],labyrinthe["carte"] = Plateau(len(nomsJoueurs), nbTresors)
+    print("Importation de la liste de joueurs réalisée :\n\t",labyrinthe["joueurs"])
+    distribuerTresors(labyrinthe["joueurs"],nbTresors, nbTresorsMax)
+    print("Distribution des tresors réalisée :\n\t",labyrinthe["joueurs"])
+    initAleatoireJoueurCourant(labyrinthe["joueurs"])
+    print("Initiation du joueur courant realisée:\n\t",labyrinthe["joueurs"])
     print("WHERE DID IT GO ?!")
-    labyrinthe=(nbJoueurs,nbTresors)
+    #labyrinthe=(nbJoueurs,nbTresors)
     return labyrinthe
 
 def getPlateau(labyrinthe):
@@ -41,9 +43,8 @@ def getPlateau(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: la matrice représentant le plateau de ce labyrinthe
     """
-    plateau =Plateau(labyrinthe[0],labyrinthe[1])
-    labyrinthe=(labyrinthe,plateau)
-    return plateau
+    
+    return labyrinthe["plateau"]
 
 def getNbParticipants(labyrinthe):
     """
@@ -51,7 +52,7 @@ def getNbParticipants(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: le nombre de joueurs de la partie
     """
-    return getNbJoueurs(labyrinthe[0])
+    return getNbJoueurs(labyrinthe["joueurs"])
 
 def getNomJoueurCourant(labyrinthe):
     """
@@ -59,7 +60,7 @@ def getNomJoueurCourant(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: le nom du joueurs courant
     """
-    return nomJoueurCourant(labyrinthe[0])
+    return nomJoueurCourant(labyrinthe["joueurs"])
 
 def getNumJoueurCourant(labyrinthe):
     """
@@ -67,7 +68,7 @@ def getNumJoueurCourant(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: le numero du joueurs courant
     """
-    return numJoueurCourant(labyrinthe[0])
+    return numJoueurCourant(labyrinthe["joueurs"])
 
 def getPhase(labyrinthe):
     """
@@ -101,7 +102,7 @@ def getListeJoueurs(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: les joueurs sous la forme de la structure implémentée dans listeJoueurs.py    
     """
-    return labyrinthe[0]
+    return labyrinthe["joueurs"]
 
 
 def enleverTresor(labyrinthe,lin,col,numTresor):
@@ -143,7 +144,8 @@ def getCarteAJouer(labyrinthe):
     paramètre: labyrinthe: le labyrinthe considéré
     résultat: la carte à jouer    
     """    
-    pass
+    return labyrinthe["carte"]
+
 def coupInterdit(labyrinthe,direction,rangee):
     """ 
     retourne True si le coup proposé correspond au coup interdit

@@ -251,8 +251,6 @@ def demarrer(lmt):
 #------------------------------
 
 if __name__=='__main__': 
-    while 1 :
-        print(saisirDeplacement(None))
     print("Bienvenue dans le jeu du labyrinthe")
     # saisie des noms de joueurs
     listeJoueurs=[]
