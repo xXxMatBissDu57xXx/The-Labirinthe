@@ -48,7 +48,7 @@ def initAleatoireJoueurCourant(joueurs):
     for i in range(len(listeBis)):
       joueurs.append(listeBis[i])
       joueurs[i+1]["numero"]=i+1
-      #print("joueurs :",joueurs)
+    print("Liste des joueurs à la fin de initAleatoireJoueurCourant :",joueurs)
 
 def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
     """
@@ -201,10 +201,10 @@ def joueurCourantAFini(joueurs):
 
 if __name__=="__main__":
   liste=["Mat","Dams","Gui","JoJo"]
-  liste2=[{"nom":"Mat","tresors":[5,6],"numero":1},{"nom":"Dams","tresors":[9,8],"numero":0}]
+  liste2=[{"nom":"Mat","tresors":[]},{"nom":"Dams","tresors":[]}]
   #print("ListeJoueurs :",ListeJoueurs(liste))
   #ajouterJoueur(liste,"Gui")
-  #initAleatoireJoueurCourant(ListeJoueurs(liste))
+  initAleatoireJoueurCourant(liste2)
   #distribuerTresors(liste2,nbTresors=24, nbTresorMax=0)
   #changerJoueurCourant(liste2)
   #print(getNbJoueurs(liste))

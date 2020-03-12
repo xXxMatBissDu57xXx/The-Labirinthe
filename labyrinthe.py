@@ -26,8 +26,12 @@ def Labyrinthe(nomsJoueurs=["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0):
     résultat: le labyrinthe crée
     """
     nbJoueurs=ListeJoueurs(nomsJoueurs)
+    print("Importation de la liste de joueurs réalisée :\n\t",nbJoueurs)
+    distribuerTresors(nbJoueurs,nbTresors=24, nbTresorMax=2)
+    print("Distribution des tresors réalisée :\n\t",nbJoueurs)
     initAleatoireJoueurCourant(nbJoueurs)
-    distribuerTresors(nbJoueurs,nbTresors=24, nbTresorMax=0)
+    print("Initiation du joueur courant realisée:\n\t",nbJoueurs)
+    print("WHERE DID IT GO ?!")
     labyrinthe=(nbJoueurs,nbTresors)
     return labyrinthe
 
@@ -245,4 +249,4 @@ def finirTour(labyrinthe):
     pass
 
 if __name__=="__main__":
-  print(Labyrinthe(nomsJoueurs=["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0))
+  Labyrinthe(["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0)
