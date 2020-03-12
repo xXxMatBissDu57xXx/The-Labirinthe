@@ -20,7 +20,7 @@ def ListeJoueurs(nomsJoueurs):
     """
     joueurs=[]
     for i in nomsJoueurs:
-      joueurs.append((i,[]))
+      joueurs.append(Joueur(i))
     return joueurs
 
 def ajouterJoueur(joueurs, joueur):
@@ -30,7 +30,8 @@ def ajouterJoueur(joueurs, joueur):
                 joueur le joueur à ajouter
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    joueurs.append(joueur)
+    joueurs.append(Joueur(joueur))
+    #print("Joueurs après ajouterJoueur :\n",joueurs)
 
 def initAleatoireJoueurCourant(joueurs):
     """
@@ -38,15 +39,16 @@ def initAleatoireJoueurCourant(joueurs):
     paramètre: joueurs un liste de joueurs
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    indiceCourant=random.randint(0,len(joueurs[0])-1)
+    indiceCourant=random.randint(0,len(joueurs)-1)
     listeBis=joueurs
     joueurs=[]
-    joueurs.append((listeBis[indiceCourant],[0]))
+    joueurs.append(listeBis[indiceCourant])
+    joueurs[0]["numero"]=0
     listeBis.pop(indiceCourant)
-    j=1
-    for i in listeBis:
-      joueurs.append((i,[j]))
-      j +=1
+    for i in range(len(listeBis)):
+      joueurs.append(listeBis[i])
+      joueurs[i+1]["numero"]=i+1
+      #print("joueurs :",joueurs)
 
 def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
     """
@@ -67,34 +69,34 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
       i=0
       while len(Tresors) !=0:
         tresor=random.choice(Tresors)
-        joueurs[i][0][1].append(tresor)
+        ajouterTresor(joueurs[i],tresor)
         Tresors.remove(tresor)
         i +=1
         if i ==len(joueurs)-1:
           i =-1
     else:
       i=0
-      while len(joueurs[len(joueurs)-1][0][1]) <nbTresorMax:
+      while len(joueurs[len(joueurs)-1]["tresors"]) <nbTresorMax:
         tresor=random.choice(Tresors)
-        joueurs[i][0][1].append(tresor)
+        ajouterTresor(joueurs[i],tresor)
         Tresors.remove(tresor)
         i +=1
         if i ==len(joueurs)-1:
           i =-1
+    #print(joueurs)
 
 def changerJoueurCourant(joueurs):
     """
     passe au joueur suivant (change le joueur courant donc)
     paramètres: joueurs la liste des joueurs
     cette fonction ne retourne rien mais modifie la liste des joueurs
-    """ 
-    j=0  
-    for i in joueurs:
-      if joueurs[j][1][0] >0:
-        joueurs[j][1][0] -=1
+    """  
+    for i in range(len(joueurs)):
+      if joueurs[i]["numero"] >0:
+        joueurs[i]["numero"] -=1
       else: 
-        joueurs[j][1][0] =len(joueurs)-1
-      j +=1
+        joueurs[i]["numero"] =len(joueurs)-1
+    #print("joueurs après changement de joueur courant :\n",joueurs)
 
 def getNbJoueurs(joueurs):
     """
@@ -110,8 +112,8 @@ def getJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le joueur courant
     """
-    for i in range(len(joueurs)-1):
-      if joueurs[i][1][0] ==0:
+    for i in range(len(joueurs)):
+      if joueurs[i]["numero"] ==0:
         return joueurs[i]
 
 def joueurCourantTrouveTresor(joueurs):
@@ -121,9 +123,10 @@ def joueurCourantTrouveTresor(joueurs):
     paramètre: joueurs la liste des joueurs
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    for i in range(len(joueurs)-1):
-      if joueurs[i][1][0] ==0:
-        joueurs[i][0][1].pop(0)
+    for i in range(len(joueurs)):
+      if joueurs[i]["numero"] ==0:
+        tresorTrouve(joueurs[i])
+    #print(joueurs)
 
 def nbTresorsRestantsJoueur(joueurs,numJoueur):
     """
@@ -141,8 +144,8 @@ def numJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le numéro du joueur courant
     """
-    for i in range(len(joueurs)-1):
-      if joueurs[i][1][0] ==0:
+    for i in range(len(joueurs)):
+      if joueurs[i]["numero"] ==0:
         return i
 
 def nomJoueurCourant(joueurs):
@@ -151,9 +154,9 @@ def nomJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le nom du joueur courant
     """
-    for i in range(len(joueurs)-1):
-      if joueurs[i][1][0] ==0:
-        return joueurs[i][0][0]
+    for i in range(len(joueurs)):
+      if joueurs[i]["numero"] ==0:
+        return getNom(joueurs[i])
 
 def nomJoueur(joueurs,numJoueur):
     """
@@ -171,17 +174,17 @@ def prochainTresorJoueur(joueurs,numJoueur):
                 numJoueur le numéro du joueur    
     résultat: le prochain trésor du joueur numJoueur (un entier)
     """
-    return joueurs[numJoueur][0][1][0]
-
+    return prochainTresor(joueurs[numJoueur])
+    
 def tresorCourant(joueurs):
     """
     retourne le trésor courant du joueur courant
     paramètre: joueurs la liste des joueurs 
     résultat: le prochain trésor du joueur courant (un entier)
     """
-    for i in range(len(joueurs)-1):
-      if joueurs[i][1][0] ==0:
-        return joueurs[i][0][1][0]
+    for i in range(len(joueurs)):
+      if joueurs[i]["numero"] ==0:
+        return prochainTresor(joueurs[i])
 
 def joueurCourantAFini(joueurs):
     """
@@ -189,20 +192,29 @@ def joueurCourantAFini(joueurs):
     paramètre: joueurs la liste des joueurs 
     résultat: un booleen indiquant si le joueur courant a fini
     """
-    for i in range(len(joueurs)-1):
-      if joueurs[i][1][0] ==0:
-        if len(joueurs[i][0][1]) ==0:
+    for i in range(len(joueurs)):
+      if joueurs[i]["numero"] ==0:
+        if len(joueurs[i]["tresors"]) ==0:
           return True
     return False
 
 
 if __name__=="__main__":
-  liste=[(("Mat"),[]),(("Dams"),[])]
-  print(ListeJoueurs(liste))
-  ajouterJoueur(liste,(("Gui"),[]))
-  ajouterJoueur(liste,(("Briane"),[]))
-  print(ListeJoueurs(liste))
-  initAleatoireJoueurCourant(liste)
-  print(liste)
-  print(changerJoueurCourant(liste))
+  liste=["Mat","Dams","Gui","JoJo"]
+  liste2=[{"nom":"Mat","tresors":[5,6],"numero":1},{"nom":"Dams","tresors":[9,8],"numero":0}]
+  #print("ListeJoueurs :",ListeJoueurs(liste))
+  #ajouterJoueur(liste,"Gui")
+  #initAleatoireJoueurCourant(ListeJoueurs(liste))
+  #distribuerTresors(liste2,nbTresors=24, nbTresorMax=0)
+  #changerJoueurCourant(liste2)
+  #print(getNbJoueurs(liste))
+  #print(getJoueurCourant(liste2))
+  #joueurCourantTrouveTresor(liste2)
+  #print(nbTresorsRestantsJoueur(liste2,1))
+  #print(numJoueurCourant(liste2))
+  #print(nomJoueurCourant(liste2))
+  #print(nomJoueur(liste2,1))
+  #print(prochainTresorJoueur(liste2,0))
+  #print(tresorCourant(liste2))
+  #print(joueurCourantAFini(liste2))
   
