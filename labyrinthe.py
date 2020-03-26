@@ -94,7 +94,12 @@ def getNbTresors(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: le nombre de trésors sur le plateau
     """    
-    pass
+    nbTresor = 0
+    for ligne in labyrinthe["plateau"]:
+        for case in ligne :
+            if case["tresor"]:
+                tmp += 1
+    return nbTresor
 
 def getListeJoueurs(labyrinthe):
     """
@@ -205,7 +210,10 @@ def getCoordonneesJoueurCourant(labyrinthe):
     resultat: les coordonnées du joueur courant ou None si celui-ci 
               n'est pas sur le plateau
     """
-    pass
+    for ligne in range(7):
+        for case in range(7):
+            if labyrinthe["joueurs"]["indiceCourant"]+1 in labyrinthe["plateau"][ligne][case]["pions"] :
+                return ligne, case
 
 def executerActionPhase1(labyrinthe,action,rangee):
     """

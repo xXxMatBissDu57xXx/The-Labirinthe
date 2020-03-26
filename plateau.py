@@ -25,13 +25,37 @@ def Plateau(nbJoueurs, nbTresors):
 
     cartes = creerCartesAmovibles(1, nbTresors)
 
-    #PLACER LES CARTES
     plateau = Matrice(7,7, None)
+
+    #PLACER LES CARTES STABLES
+    setVal(plateau,0,0,Carte(True,False,False,True))
+    setVal(plateau,0,2,Carte(True,False,False,False))
+    setVal(plateau,0,4,Carte(True,False,False,False))
+    setVal(plateau,0,6,Carte(True,True,False,False))
+
+    setVal(plateau,2,0,Carte(False,False,False,True))
+    setVal(plateau,2,2,Carte(False,False,False,True))
+    setVal(plateau,2,4,Carte(True,False,False,False))
+    setVal(plateau,2,6,Carte(False,True,False,False))
+
+    setVal(plateau,4,0,Carte(False,False,False,True))
+    setVal(plateau,4,2,Carte(False,False,True,False))
+    setVal(plateau,4,4,Carte(False,True,False,False))
+    setVal(plateau,4,6,Carte(False,True,False,False))
+
+    setVal(plateau,6,0,Carte(False,False,True,True))
+    setVal(plateau,6,2,Carte(False,False,True,False))
+    setVal(plateau,6,4,Carte(False,False,True,False))
+    setVal(plateau,6,6,Carte(False,True,True,False))
+
+    #PLACER LES CARTES AMOVIBLES
     for ligne in range(7) :
         for case in range(7) :
-            plateau[ligne][case] = cartes[-1]
-            cartes.pop()
+            if not plateau[ligne][case]:
+                setVal(plateau,ligne,case,cartes[-1])
+                cartes.pop()
 
+    
     #PLACER LES JOUEURS
     poserPionPlateau(plateau, 0, 0, 1)
     if nbJoueurs>1:
@@ -40,7 +64,6 @@ def Plateau(nbJoueurs, nbTresors):
             poserPionPlateau(plateau, 0, 6, 3)
             if nbJoueurs >3:
                 poserPionPlateau(plateau, 6, 0, 4)
-
 
     return (plateau,cartes[0])
 
@@ -56,15 +79,24 @@ def creerCartesAmovibles(tresorDebut,nbTresors):
     cartes = []
     tresors = list(range(1, nbTresors+1))
 
-    for i in range(50) :
-        cartes.append(Carte(True, True, True, True))
-        cartes[i]["pions"] = []
-        while not estValide( cartes[-1] ) :
-            decoderMurs(cartes[-1], random.randint(0, 15))
-        if tresors :
-            cartes[i]["tresor"] = tresors.pop()
-            
+     
+    #20 COINS MOINS 4 PLACES DE BASE
+    for i in range(16):
+        cartes.append(Carte(False, False, True, True))
+
+    #18 T MOINS 12 PLACES DE BASE
+    for i in range(6):
+        cartes.append(Carte(False, False, False, True))
+
+    #DOUZE COULOIRS
+    for i in range(12):
+        cartes.append(Carte(False, True, False, True))
+
     random.shuffle(cartes)
+
+    for carte in cartes :
+        if tresors :
+            mettreTresor(carte, tresors.pop())
 
     return cartes
 
@@ -80,8 +112,8 @@ def prendreTresorPlateau(plateau,lig,col,numTresor):
     resultat: un booléen indiquant si le trésor était bien sur la carte considérée
     """
 
-    if plateau[lig][col]["tresor"] == numTresor :
-        plateau[lig][col]["tresor"] = 0
+    if numTresor == getTresor(plateau[lig][col]):
+        prendreTresor(plateau[lig][col])
         return True
     return False
 
@@ -98,7 +130,7 @@ def getCoordonneesTresor(plateau,numTresor):
 
     for ligne in range(7):
         for case in range(7):
-            if plateau[ligne][case]["tresor"] == numTresor :
+            if numTresor == getTresor(plateau[ligne][case]):
                 return (ligne,case)
     else : 
         return None
@@ -114,7 +146,7 @@ def getCoordonneesJoueur(plateau,numJoueur):
 
     for ligne in list(range(7)):
         for case in list(range(7)):
-            if numJoueur in plateau[ligne][case]["pions"]:
+            if numJoueur in getListePions(plateau[ligne][case]):
                 return (ligne,case)
     else : 
         return None
@@ -128,11 +160,7 @@ def prendrePionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-
-    if numJoueur in plateau[lin][col]["pions"] :
-        plateau[lin][col]["pions"].remove(numJoueur)
-        return True
-    return False
+    prendrePion(plateau[lin][col], numJoueur)
 
 def poserPionPlateau(plateau,lin,col,numJoueur):
     """
@@ -143,10 +171,7 @@ def poserPionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    pions = getListePions(plateau[lin][col])
-    if numJoueur not in pions :
-        pions.append(numJoueur)
-        plateau[lin][col]["pions"] = pions
+    poserPion(plateau[lin][col], numJoueur)
 
 def accessible(plateau,ligD,colD,ligA,colA):
     """
@@ -254,30 +279,30 @@ if __name__=='__main__':
 
     tmp = 0
     for carte in cartes :
-        if carte["tresor"]:
+        if getTresor(carte):
             tmp += 1
     assert tmp == nbTresors, "Plateau"
 
-    assert len(cartes) == 50, "creerCartesAmovibles"
+    assert len(cartes) == 34, "creerCartesAmovibles"
     for carte in cartes :
         assert estValide(carte), "creerCartesAmovibles"
 
-    plateau[0][0]["tresor"] = 100
+    mettreTresor(plateau[0][0], 100)
     assert prendreTresorPlateau(plateau, 0, 0, 100), "prendreTresorPlateau"
     assert not prendreTresorPlateau(plateau, 0, 0, 100), "prendreTresorPlateau"
 
-    plateau[5][5]["tresor"] = 100
+    mettreTresor(plateau[5][5], 100)
     assert getCoordonneesTresor(plateau, 100) == (5, 5), "getCoordonneesTresor"
 
 
-    plateau[5][5]["pions"] = [5]
+    poserPion(plateau[5][5], 5)
     assert getCoordonneesJoueur(plateau, 5) == (5,5), "getCoordonneesJoueur"
 
-    assert prendrePionPlateau(plateau, 5, 5, 5), "prendrePionPlateau"
-    assert not prendrePionPlateau(plateau, 5, 5, 5), "prendrePionPlateau"
+    prendrePionPlateau(plateau, 5, 5, 5)
+    assert getCoordonneesJoueur(plateau, 5) == None, "poserPionsPlateau"
 
     poserPionPlateau(plateau, 2, 2, 3)
-    assert getCoordonneesJoueur(plateau, 3) ==(2,2), "poserPionsPlateau"
+    assert getCoordonneesJoueur(plateau, 3) == (2,2), "poserPionsPlateau"
 
 
     decoderMurs(plateau[0][0], 0)

@@ -118,7 +118,7 @@ def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
     résultat: la valeur de la case "ejectée" par le décalage
     """
     tmp = matrice[0][numCol]
-    for i in range(0, getNbLignes(matrice)-1):
+    for i in range(getNbLignes(matrice)-1):
         matrice[i][numCol] = matrice[i+1][numCol]
     matrice[getNbColonnes(matrice)-1][numCol] = nouvelleValeur
     return tmp

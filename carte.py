@@ -28,7 +28,7 @@ def Carte(nord, est, sud, ouest, tresor=0, pions=[]):
     pions est la liste des pions qui sont posés sur la carte (un pion est un entier entre 1 et 4)
     """
 
-    carte = {"nord":nord, "est":est, "sud":sud, "ouest":ouest, "tresor":tresor, "pions":pions}
+    carte = {"nord":nord, "est":est, "sud":sud, "ouest":ouest, "tresor":tresor, "pions":pions.copy()}
     return carte
 
 def estValide(c):
@@ -122,11 +122,8 @@ def possedePion(c,pion):
     paramètres: c une carte
                 pion un entier compris entre 1 et 4
     """
-
-    for i in c.get("pions"):
-        if i == pion :
-            return True
-    return False
+    
+    return pion in getListePions(c)
 
 def getTresor(c):
     """
@@ -168,7 +165,7 @@ def prendrePion(c, pion):
     """
 
     if possedePion(c, pion):
-            c["pions"].remove(pion)
+        c["pions"].remove(pion)
 
 def poserPion(c, pion):
     """
