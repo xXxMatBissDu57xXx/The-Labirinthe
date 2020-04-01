@@ -133,6 +133,7 @@ def prendreJoueurCourant(labyrinthe,lin,col):
     la fonction ne retourne rien mais modifie le labyrinthe    
     """
     pass
+
 def poserJoueurCourant(labyrinthe,lin,col):
     """
     pose le joueur courant sur la case lin,col du plateau
@@ -201,7 +202,6 @@ def getCoordonneesTresorCourant(labyrinthe):
               n'est pas sur le plateau
     """
     pass
-
 
 def getCoordonneesJoueurCourant(labyrinthe):
     """

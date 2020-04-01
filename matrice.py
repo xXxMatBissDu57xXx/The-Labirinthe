@@ -35,20 +35,16 @@ def getNbLignes(matrice):
     retourne le nombre de lignes de la matrice
     paramètre: matrice la matrice considérée
     """
-    nb = 0
-    for i in matrice:
-        nb += 1
-    return nb
+    
+    return len(matrice)
 
 def getNbColonnes(matrice):
     """
     retourne le nombre de colonnes de la matrice
     paramètre: matrice la matrice considérée
     """
-    nb = 0
-    for i in matrice[0]:
-        nb += 1
-    return nb
+    
+    return len(matrice[0])
 
 def getVal(matrice,ligne,colonne):
     """

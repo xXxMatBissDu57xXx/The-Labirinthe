@@ -48,10 +48,7 @@ def murNord(c):
     paramètre: c une carte
     """
 
-    if(c["nord"]):
-        return True
-    else:
-        return False
+    return c["nord"]
 
 def murSud(c):
     """
@@ -59,10 +56,7 @@ def murSud(c):
     paramètre: c une carte
     """
 
-    if(c["sud"]):
-        return True
-    else:
-        return False
+    return c["sud"]
 
 def murEst(c):
     """
@@ -70,10 +64,7 @@ def murEst(c):
     paramètre: c une carte
     """
 
-    if(c["est"]):
-        return True
-    else:
-        return False
+    return c["est"]
 
 def murOuest(c):
     """
@@ -81,10 +72,7 @@ def murOuest(c):
     paramètre: c une carte
     """
 
-    if(c["ouest"]):
-        return True
-    else:
-        return False
+    return c["ouest"]
 
 def getListePions(c):
     """
