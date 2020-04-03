@@ -72,7 +72,7 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
       i=0
       while len(Tresors) !=0:
         tresor=random.choice(Tresors)
-        ajouterTresor(joueurs["joueurs"][joueurs["indiceCourant"]],tresor)
+        ajouterTresor(joueurs["joueurs"][i],tresor)
         Tresors.remove(tresor)
         i +=1
         if i ==len(joueurs["joueurs"])-1:
