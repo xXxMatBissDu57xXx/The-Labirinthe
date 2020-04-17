@@ -30,7 +30,7 @@ def ajouterJoueur(joueurs, joueur):
                 joueur le joueur à ajouter
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    joueurs["joueurs"].append(Joueur(joueur))
+    joueurs["joueurs"].append(joueur)
     #print("Joueurs après ajouterJoueur :\n",joueurs)
 
 def initAleatoireJoueurCourant(joueurs):
@@ -192,7 +192,7 @@ if __name__=="__main__":
   joueurs2={"indiceCourant":0,"joueurs":[{"nom":"Mat","tresors":[]},{"nom":"Dams","tresors":[]}]}
   joueurs = ListeJoueurs(liste)
   print("ListeJoueurs :",ListeJoueurs(joueurs))
-  ajouterJoueur(joueurs,"Gui")
+  ajouterJoueur(joueurs,Joueur("Gui"))
   initAleatoireJoueurCourant(joueurs)
   distribuerTresors(joueurs2,nbTresors=24, nbTresorMax=0)
   changerJoueurCourant(joueurs2)
