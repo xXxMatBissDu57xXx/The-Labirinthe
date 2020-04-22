@@ -74,18 +74,20 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
         tresor=random.choice(Tresors)
         ajouterTresor(joueurs["joueurs"][i],tresor)
         Tresors.remove(tresor)
-        i +=1
+        if i < len(joueurs["joueurs"])-1:
+            i +=1
         if i ==len(joueurs["joueurs"])-1:
-          i =-1
+            i = 0
     else:
       i=0
       while len(joueurs["joueurs"][len(joueurs["joueurs"])-1]["tresors"]) <nbTresorMax:
         tresor=random.choice(Tresors)
         ajouterTresor(joueurs["joueurs"][i],tresor)
         Tresors.remove(tresor)
-        i +=1
+        if i < len(joueurs["joueurs"])-1:
+            i +=1
         if i ==len(joueurs["joueurs"])-1:
-          i =-1
+            i = 0
     #print(joueurs)
 
 def changerJoueurCourant(joueurs):
