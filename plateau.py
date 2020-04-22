@@ -22,40 +22,40 @@ def Plateau(nbJoueurs, nbTresors):
                 ont été placée de manière aléatoire
               - la carte amovible qui n'a pas été placée sur le plateau
     """
+    plateau={"matrice": Matrice(7,7, None), "carte": None}
 
     cartes = creerCartesAmovibles(1, nbTresors)
 
-    plateau = Matrice(7,7, None)
-
     #PLACER LES CARTES STABLES
-    setVal(plateau,0,0,Carte(True,False,False,True))
-    setVal(plateau,0,2,Carte(True,False,False,False))
-    setVal(plateau,0,4,Carte(True,False,False,False))
-    setVal(plateau,0,6,Carte(True,True,False,False))
+    setVal(getMatrice(plateau),0,0,Carte(True,False,False,True))
+    setVal(getMatrice(plateau),0,2,Carte(True,False,False,False))
+    setVal(getMatrice(plateau),0,4,Carte(True,False,False,False))
+    setVal(getMatrice(plateau),0,6,Carte(True,True,False,False))
 
-    setVal(plateau,2,0,Carte(False,False,False,True))
-    setVal(plateau,2,2,Carte(False,False,False,True))
-    setVal(plateau,2,4,Carte(True,False,False,False))
-    setVal(plateau,2,6,Carte(False,True,False,False))
+    setVal(getMatrice(plateau),2,0,Carte(False,False,False,True))
+    setVal(getMatrice(plateau),2,2,Carte(False,False,False,True))
+    setVal(getMatrice(plateau),2,4,Carte(True,False,False,False))
+    setVal(getMatrice(plateau),2,6,Carte(False,True,False,False))
 
-    setVal(plateau,4,0,Carte(False,False,False,True))
-    setVal(plateau,4,2,Carte(False,False,True,False))
-    setVal(plateau,4,4,Carte(False,True,False,False))
-    setVal(plateau,4,6,Carte(False,True,False,False))
+    setVal(getMatrice(plateau),4,0,Carte(False,False,False,True))
+    setVal(getMatrice(plateau),4,2,Carte(False,False,True,False))
+    setVal(getMatrice(plateau),4,4,Carte(False,True,False,False))
+    setVal(getMatrice(plateau),4,6,Carte(False,True,False,False))
 
-    setVal(plateau,6,0,Carte(False,False,True,True))
-    setVal(plateau,6,2,Carte(False,False,True,False))
-    setVal(plateau,6,4,Carte(False,False,True,False))
-    setVal(plateau,6,6,Carte(False,True,True,False))
+    setVal(getMatrice(plateau),6,0,Carte(False,False,True,True))
+    setVal(getMatrice(plateau),6,2,Carte(False,False,True,False))
+    setVal(getMatrice(plateau),6,4,Carte(False,False,True,False))
+    setVal(getMatrice(plateau),6,6,Carte(False,True,True,False))
 
     #PLACER LES CARTES AMOVIBLES
     for ligne in range(7) :
         for case in range(7) :
-            if not plateau[ligne][case]:
-                setVal(plateau,ligne,case,cartes[-1])
+            if not getMatrice(plateau)[ligne][case]:
+                setVal(getMatrice(plateau),ligne,case,cartes[-1])
                 cartes.pop()
 
-    
+    plateau["carte"] = cartes[0]
+
     #PLACER LES JOUEURS
     poserPionPlateau(plateau, 0, 0, 1)
     if nbJoueurs>1:
@@ -65,7 +65,10 @@ def Plateau(nbJoueurs, nbTresors):
             if nbJoueurs >3:
                 poserPionPlateau(plateau, 6, 0, 4)
 
-    return (plateau,cartes[0])
+    return (plateau)
+
+def getMatrice(plateau):
+    return plateau["matrice"]
 
 def creerCartesAmovibles(tresorDebut,nbTresors):
     """
@@ -112,8 +115,8 @@ def prendreTresorPlateau(plateau,lig,col,numTresor):
     resultat: un booléen indiquant si le trésor était bien sur la carte considérée
     """
 
-    if numTresor == getTresor(plateau[lig][col]):
-        prendreTresor(plateau[lig][col])
+    if numTresor == getTresor(getMatrice(plateau)[lig][col]):
+        prendreTresor(getMatrice(plateau)[lig][col])
         return True
     return False
 
@@ -130,7 +133,7 @@ def getCoordonneesTresor(plateau,numTresor):
 
     for ligne in range(7):
         for case in range(7):
-            if numTresor == getTresor(plateau[ligne][case]):
+            if numTresor == getTresor(getMatrice(plateau)[ligne][case]):
                 return (ligne,case)
     else : 
         return None
@@ -146,7 +149,7 @@ def getCoordonneesJoueur(plateau,numJoueur):
 
     for ligne in list(range(7)):
         for case in list(range(7)):
-            if numJoueur in getListePions(plateau[ligne][case]):
+            if numJoueur in getListePions(getMatrice(plateau)[ligne][case]):
                 return (ligne,case)
     else : 
         return None
@@ -160,7 +163,7 @@ def prendrePionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    prendrePion(plateau[lin][col], numJoueur)
+    prendrePion(getMatrice(plateau)[lin][col], numJoueur)
 
 def poserPionPlateau(plateau,lin,col,numJoueur):
     """
@@ -171,7 +174,7 @@ def poserPionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    poserPion(plateau[lin][col], numJoueur)
+    poserPion(getMatrice(plateau)[lin][col], numJoueur)
 
 def accessible(plateau,ligD,colD,ligA,colA):
     """
@@ -195,16 +198,16 @@ def accessible(plateau,ligD,colD,ligA,colA):
             for ligne in range(7):
                 for case in range(7):
                     if explorateur[ligne][case] == i:
-                        if ligne-1 > 0 and not explorateur[ligne-1][case]  and passageNord(plateau[ligne][case], plateau[ligne-1][case]) :
+                        if ligne-1 > 0 and not explorateur[ligne-1][case]  and passageNord(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne-1][case]) :
                             explorateur[ligne-1][case] = True
                             action = True
-                        if  case+1 < 6 and not explorateur[ligne][case+1] and passageEst(plateau[ligne][case], plateau[ligne][case+1]):
+                        if  case+1 < 6 and not explorateur[ligne][case+1] and passageEst(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne][case+1]):
                             explorateur[ligne][case+1] = True
                             action = True
-                        if  ligne+1 < 6 and not explorateur[ligne+1][case] and passageSud(plateau[ligne][case], plateau[ligne+1][case]):
+                        if  ligne+1 < 6 and not explorateur[ligne+1][case] and passageSud(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne+1][case]):
                             explorateur[ligne+1][case] = True
                             action = True
-                        if  case-1 > 0 and not explorateur[ligne][case-1] and passageOuest(plateau[ligne][case], plateau[ligne][case-1]):
+                        if  case-1 > 0 and not explorateur[ligne][case-1] and passageOuest(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne][case-1]):
                             explorateur[ligne][case-1] = True
                             action = True
 
@@ -239,19 +242,19 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
             for ligne in range(7):
                 for case in range(7):
                     if len(explorateur[ligne][case]) == i:
-                        if  ligne > 0 and explorateur[ligne-1][case] == [] and passageNord(plateau[ligne][case], plateau[ligne-1][case]) :
+                        if  ligne > 0 and explorateur[ligne-1][case] == [] and passageNord(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne-1][case]) :
                             explorateur[ligne-1][case] = explorateur[ligne][case].copy()
                             explorateur[ligne-1][case].append((ligne, case))
                             action = True
-                        if  case < 6 and explorateur[ligne][case+1] == [] and passageEst(plateau[ligne][case], plateau[ligne][case+1]):
+                        if  case < 6 and explorateur[ligne][case+1] == [] and passageEst(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne][case+1]):
                             explorateur[ligne][case+1] = explorateur[ligne][case].copy()
                             explorateur[ligne][case+1].append((ligne, case))
                             action = True
-                        if  ligne < 6 and explorateur[ligne+1][case] == [] and passageSud(plateau[ligne][case], plateau[ligne+1][case]):
+                        if  ligne < 6 and explorateur[ligne+1][case] == [] and passageSud(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne+1][case]):
                             explorateur[ligne+1][case] = explorateur[ligne][case].copy()
                             explorateur[ligne+1][case].append((ligne, case))
                             action = True
-                        if  case > 0 and explorateur[ligne][case-1] == [] and passageOuest(plateau[ligne][case], plateau[ligne][case-1]):
+                        if  case > 0 and explorateur[ligne][case-1] == [] and passageOuest(getMatrice(plateau)[ligne][case], getMatrice(plateau)[ligne][case-1]):
                             explorateur[ligne][case-1] = explorateur[ligne][case].copy()
                             explorateur[ligne][case-1].append((ligne, case))
                             action = True
@@ -274,7 +277,7 @@ if __name__=='__main__':
     # 9 FONCTIONS
     nbJoueurs = 2
     nbTresors = 8
-    plateau,carte = Plateau(nbJoueurs,nbTresors)
+    plateau = Plateau(nbJoueurs,nbTresors)
     cartes = creerCartesAmovibles(1, nbTresors)
 
     tmp = 0
@@ -287,15 +290,15 @@ if __name__=='__main__':
     for carte in cartes :
         assert estValide(carte), "creerCartesAmovibles"
 
-    mettreTresor(plateau[0][0], 100)
+    mettreTresor(getMatrice(plateau)[0][0], 100)
     assert prendreTresorPlateau(plateau, 0, 0, 100), "prendreTresorPlateau"
     assert not prendreTresorPlateau(plateau, 0, 0, 100), "prendreTresorPlateau"
 
-    mettreTresor(plateau[5][5], 100)
+    mettreTresor(getMatrice(plateau)[5][5], 100)
     assert getCoordonneesTresor(plateau, 100) == (5, 5), "getCoordonneesTresor"
 
 
-    poserPion(plateau[5][5], 5)
+    poserPion(getMatrice(plateau)[5][5], 5)
     assert getCoordonneesJoueur(plateau, 5) == (5,5), "getCoordonneesJoueur"
 
     prendrePionPlateau(plateau, 5, 5, 5)
@@ -305,16 +308,16 @@ if __name__=='__main__':
     assert getCoordonneesJoueur(plateau, 3) == (2,2), "poserPionsPlateau"
 
 
-    decoderMurs(plateau[0][0], 0)
-    decoderMurs(plateau[1][0], 0)
-    decoderMurs(plateau[1][1], 0)
-    decoderMurs(plateau[1][2], 0)
-    decoderMurs(plateau[2][2], 0)
+    decoderMurs(getMatrice(plateau)[0][0], 0)
+    decoderMurs(getMatrice(plateau)[1][0], 0)
+    decoderMurs(getMatrice(plateau)[1][1], 0)
+    decoderMurs(getMatrice(plateau)[1][2], 0)
+    decoderMurs(getMatrice(plateau)[2][2], 0)
     assert accessible(plateau, 0, 0, 2, 2), "accessible"
-    decoderMurs(plateau[2][2], 15)
+    decoderMurs(getMatrice(plateau)[2][2], 15)
     assert not accessible(plateau, 0, 0, 2, 2), "accessible"
 
-    decoderMurs(plateau[2][2], 0)
+    decoderMurs(getMatrice(plateau)[2][2], 0)
     assert accessibleDist(plateau, 0, 0, 2, 2), "accessibleDist"
-    decoderMurs(plateau[2][2], 15)
+    decoderMurs(getMatrice(plateau)[2][2], 15)
     assert not accessibleDist(plateau, 0, 0, 2, 2), "accessibleDist"
