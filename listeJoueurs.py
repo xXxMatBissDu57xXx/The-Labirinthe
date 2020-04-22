@@ -65,30 +65,14 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
                              de trésor possible  
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    Tresors=[]
-    for i in range(nbTresors):
-      Tresors.append(i+1)
-    if nbTresorMax ==0:
-      i=0
-      while len(Tresors) !=0:
-        tresor=random.choice(Tresors)
-        ajouterTresor(joueurs["joueurs"][i],tresor)
-        Tresors.remove(tresor)
-        if i < len(joueurs["joueurs"])-1:
-            i +=1
-        if i ==len(joueurs["joueurs"])-1:
-            i = 0
-    else:
-      i=0
-      while len(joueurs["joueurs"][len(joueurs["joueurs"])-1]["tresors"]) <nbTresorMax:
-        tresor=random.choice(Tresors)
-        ajouterTresor(joueurs["joueurs"][i],tresor)
-        Tresors.remove(tresor)
-        if i < len(joueurs["joueurs"])-1:
-            i +=1
-        if i ==len(joueurs["joueurs"])-1:
-            i = 0
-    #print(joueurs)
+    if nbTresors == 0:
+        nbTresors = 48
+    tresors = list(range(nbTresors))
+    while tresors:
+        for joueur in joueurs["joueurs"] :
+            tresor=random.choice(tresors)
+            ajouterTresor(joueur,tresor)
+            tresors.remove(tresor)
 
 def changerJoueurCourant(joueurs):
     """

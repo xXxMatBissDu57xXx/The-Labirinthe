@@ -25,9 +25,8 @@ def Labyrinthe(nomsJoueurs=["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0):
                 nbTresorMax le nombre de trésors maximum distribué à chaque joueur
     résultat: le labyrinthe crée
     """
-    labyrinthe = {"plateau": None, "carte":None, "joueurs": ListeJoueurs(nomsJoueurs), "phase":1}
+    labyrinthe = {"plateau": Plateau(len(nomsJoueurs), nbTresors), "joueurs": ListeJoueurs(nomsJoueurs), "phase":1}
 
-    labyrinthe["plateau"],labyrinthe["carte"] = Plateau(len(nomsJoueurs), nbTresors)
     print("Importation de la liste de joueurs réalisée :\n\t",labyrinthe["joueurs"])
     distribuerTresors(labyrinthe["joueurs"],nbTresors, nbTresorsMax)
     print("Distribution des tresors réalisée :\n\t",labyrinthe["joueurs"])
@@ -153,7 +152,7 @@ def getCarteAJouer(labyrinthe):
     paramètre: labyrinthe: le labyrinthe considéré
     résultat: la carte à jouer    
     """    
-    return labyrinthe["carte"]
+    return labyrinthe["plateau"]["carte"]
 
 def coupInterdit(labyrinthe,direction,rangee):
     """ 
@@ -262,4 +261,4 @@ def finirTour(labyrinthe):
     pass
 
 if __name__=="__main__":
-  Labyrinthe(["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0)
+    labyrinthe = Labyrinthe()
