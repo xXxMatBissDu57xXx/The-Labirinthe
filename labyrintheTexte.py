@@ -179,9 +179,11 @@ def saisirDeplacement(lmt):
     résultat: un couple d'entier (lin,col) indiquant les coordonnées de la case destination. Si l'utilisateur a entré des coordonnées incorrecte la fonction retourne (-1,-1)
     """    
     depl = list(input("Entrez votre déplacement : "))
-    if depl[0] in str(list(range(8))) and depl[1] in str(list(range(8))):
-        return (depl[0], depl[1])
-    return(-1, -1)
+    x = int(depl[0])
+    y = int(depl[1])
+    if x in range(7) and y in range(7):
+        return x,y
+    return -1, -1
         
 # demarre la partie en mode texte
 def demarrer(lmt):
@@ -242,7 +244,7 @@ def demarrer(lmt):
         elif res2==1:
             message="Le joueur "+nomJC+" vient de trouver le trésor "+str(t)
         afficheLabyrinthe(lmt,message)
-    # la partie est terminer
+    # la partie est terminée
     print("Merci au revoir")
 
 
