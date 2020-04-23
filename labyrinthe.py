@@ -278,6 +278,7 @@ def finirTour(labyrinthe):
               1 si le joueur courant a trouvé un trésor mais la partie n'est pas terminée
               2 si le joueur courant a trouvé son dernier trésor (la partie est donc terminée)
     """
+    changerPhase(labyrinthe)
     if getCoordonneesTresorCourant(labyrinthe) == getCoordonneesJoueurCourant(labyrinthe) :
         joueurCourantTrouveTresor(getListeJoueurs(labyrinthe))
         if joueurCourantAFini(getListeJoueurs(labyrinthe)) :
@@ -286,7 +287,6 @@ def finirTour(labyrinthe):
             return 1
     else :
         return 0
-    changerPhase(labyrinthe)
 
 if __name__=="__main__":
     pass

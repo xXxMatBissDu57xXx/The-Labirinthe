@@ -214,7 +214,8 @@ def accessible(plateau,ligD,colD,ligA,colA):
                         if  case-1 > 0 and not explorateur[ligne][case-1] and passageOuest(plateau[ligne][case], plateau[ligne][case-1]):
                             explorateur[ligne][case-1] = True
                             action = True
-
+            if not action :
+                break
     return explorateur[ligA][colA]
 
 
@@ -262,6 +263,8 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
                             explorateur[ligne][case-1] = explorateur[ligne][case].copy()
                             explorateur[ligne][case-1].append((ligne, case))
                             action = True
+            if not action :
+                break
 
     #AFFICHAGE ?
     if False :

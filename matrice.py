@@ -84,7 +84,7 @@ def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):
     résultat la valeur qui a été ejectée lors du décalage
     """
     tmp = matrice[numLig][0]
-    for i in range(1, getNbColonnes(matrice)-1):
+    for i in range(getNbColonnes(matrice)-1):
         matrice[numLig][i] = matrice[numLig][i+1]
     matrice[numLig][getNbColonnes(matrice)-1] = nouvelleValeur
     return tmp
