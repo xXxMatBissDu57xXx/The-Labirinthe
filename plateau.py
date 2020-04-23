@@ -264,7 +264,7 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
                             action = True
 
     #AFFICHAGE ?
-    if True :
+    if False :
         for ligne in explorateur:
             for case in ligne :
                 print("[", end = ' ')
@@ -275,7 +275,10 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
                 print(" ")
         print(explorateur[ligA][colA])
 
-    return explorateur[ligA][colA]
+    if explorateur[ligA][colA]:
+        return explorateur[ligA][colA]
+    else :
+        return None
 
 if __name__=='__main__':
 
