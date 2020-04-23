@@ -162,7 +162,7 @@ def saisirOrdre(lmt):
               c'est à dire le numéro de la ligne ou de la colonne où insérer la carte
               si l'ordre saisi n'est pas valide la focntion retourne (-1,-1)
     """
-    ordre = list(input("Entrez votre ordre : "))
+    ordre = list(input("Entrez votre ordre (exemple : E1 pour Est ligne 1) : "))
     card = ['N', 'E', 'S', 'O']
     vals = ['1','3','5']
 
@@ -178,7 +178,7 @@ def saisirDeplacement(lmt):
     paramètre: lmt: une vue texte de labyrinthe
     résultat: un couple d'entier (lin,col) indiquant les coordonnées de la case destination. Si l'utilisateur a entré des coordonnées incorrecte la fonction retourne (-1,-1)
     """    
-    depl = list(input("Entrez votre déplacement : "))
+    depl = input("Entrez votre déplacement (exemple : 10 pour ligne 1, colonne 0): ")
     x = int(depl[0])
     y = int(depl[1])
     if x in range(7) and y in range(7):

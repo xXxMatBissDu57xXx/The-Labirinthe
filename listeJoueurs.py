@@ -127,7 +127,7 @@ def numJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le numéro du joueur courant
     """
-    return joueurs["indiceCourant"]
+    return joueurs["indiceCourant"]+1
 
 def nomJoueurCourant(joueurs):
     """

@@ -276,6 +276,8 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
         print(explorateur[ligA][colA])
 
     if explorateur[ligA][colA]:
+        explorateur[ligA][colA].pop(0)
+        explorateur[ligA][colA].append((ligA,colA))
         return explorateur[ligA][colA]
     else :
         return None

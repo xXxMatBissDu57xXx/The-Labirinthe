@@ -221,7 +221,7 @@ def getCoordonneesJoueurCourant(labyrinthe):
     """
     for ligne in range(7):
         for case in range(7):
-            if getNumJoueurCourant(labyrinthe)+1 in getListePions(getMatrice(labyrinthe["plateau"])[ligne][case]) :
+            if getNumJoueurCourant(labyrinthe) in getListePions(getMatrice(labyrinthe["plateau"])[ligne][case]) :
                 return ligne, case
     return None
 
