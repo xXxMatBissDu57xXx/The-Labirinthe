@@ -284,8 +284,10 @@ def finirTour(labyrinthe):
         if joueurCourantAFini(getListeJoueurs(labyrinthe)) :
             return 2
         else :
+            changerJoueurCourant(liste)
             return 1
     else :
+        changerJoueurCourant(liste)
         return 0
 
 if __name__=="__main__":

@@ -31,7 +31,6 @@ def ajouterJoueur(joueurs, joueur):
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
     joueurs["joueurs"].append(joueur)
-    #print("Joueurs après ajouterJoueur :\n",joueurs)
 
 def initAleatoireJoueurCourant(joueurs):
     """
@@ -39,19 +38,7 @@ def initAleatoireJoueurCourant(joueurs):
     paramètre: joueurs un liste de joueurs
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    """indiceCourant=random.randint(0,len(joueurs)-1)
-    listeBis=joueurs
-    joueurs=[]
-    joueurs.append(listeBis[indiceCourant])
-    joueurs[0]["numero"]=0
-    listeBis.pop(indiceCourant)
-    for i in range(len(listeBis)):
-      joueurs.append(listeBis[i])
-      joueurs[i+1]["numero"]=i+1
-    """
     joueurs["indiceCourant"] = random.randint(0, len(joueurs["joueurs"])-1)
-
-    print("Liste des joueurs à la fin de initAleatoireJoueurCourant :",joueurs)
 
 def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
     """
@@ -80,7 +67,7 @@ def changerJoueurCourant(joueurs):
     paramètres: joueurs la liste des joueurs
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """  
-    if joueurs["indiceCourant"] < len(joueurs["joueurs"]):
+    if joueurs["indiceCourant"] < len(joueurs["joueurs"])-1:
         joueurs["indiceCourant"] += 1  
     else:
         joueurs["indiceCourant"] = 0
@@ -170,26 +157,55 @@ def joueurCourantAFini(joueurs):
     résultat: un booleen indiquant si le joueur courant a fini
     """
 
-    return bool(joueurs["joueurs"][joueurs["indiceCourant"]]["tresors"])
+    return not bool(joueurs["joueurs"][joueurs["indiceCourant"]]["tresors"])
 
 
 if __name__=="__main__":
-  liste=["Mat","Dams","Gui","JoJo"]
-  joueurs2={"indiceCourant":0,"joueurs":[{"nom":"Mat","tresors":[]},{"nom":"Dams","tresors":[]}]}
-  joueurs = ListeJoueurs(liste)
-  print("ListeJoueurs :",ListeJoueurs(joueurs))
-  ajouterJoueur(joueurs,Joueur("Gui"))
-  initAleatoireJoueurCourant(joueurs)
-  distribuerTresors(joueurs2,nbTresors=24, nbTresorMax=0)
-  changerJoueurCourant(joueurs2)
-  print(getNbJoueurs(joueurs))
-  print(getJoueurCourant(joueurs2))
-  joueurCourantTrouveTresor(joueurs2)
-  print(nbTresorsRestantsJoueur(joueurs2,1))
-  print(numJoueurCourant(joueurs2))
-  print(nomJoueurCourant(joueurs2))
-  print(nomJoueur(joueurs2,1))
-  print(prochainTresorJoueur(joueurs2,0))
-  print(tresorCourant(joueurs2))
-  print(joueurCourantAFini(joueurs2))
-  
+
+    liste = ListeJoueurs(["Mat","Dams","Gui"])
+
+    joueur = Joueur("Jojo")
+
+    assert len(liste["joueurs"]) == 3, "ListeJoueurs()"
+    assert liste["indiceCourant"] == 0, "ListeJoueurs()"
+
+    ajouterJoueur(liste, joueur)
+    assert len(liste["joueurs"]) == 4, "ajouterJoueur()"
+
+    initAleatoireJoueurCourant(liste)
+    assert liste["indiceCourant"] in list(range(4)), liste["indiceCourant"] #""""initAleatoireJoueurCourant()""""
+
+    distribuerTresors(liste)
+    for joueur in liste["joueurs"] :
+        assert len(joueur["tresors"]) == 6, "distribuerTresors()"
+
+    liste["indiceCourant"] = 2
+    changerJoueurCourant(liste)
+    assert liste["indiceCourant"] == 3, "changerJoueurCourant()"
+    changerJoueurCourant(liste)
+    assert liste["indiceCourant"] == 0, "changerJoueurCourant()"
+    
+    assert getNbJoueurs(liste) == 4, "getNbJoueurs()"
+
+    assert getJoueurCourant(liste)["nom"] == "Mat", "getJoueurCourant"
+
+    joueurCourantTrouveTresor(liste)
+    assert len(getJoueurCourant(liste)["tresors"]) == 5, "joueurCourantTrouveTresor"
+
+    assert nbTresorsRestantsJoueur(liste, 1) == 5, "nbTresorsRestantsJoueur"
+    
+    assert numJoueurCourant(liste) == 1, "numJoueurCourant"
+
+    assert nomJoueurCourant(liste) == "Mat", "nomJoueurCourant"
+
+    assert nomJoueur(liste, 1) == "Mat", "nomJoueur"
+    
+    assert prochainTresorJoueur(liste, 0) == liste["joueurs"][0]["tresors"][-1], "prochainTresorJoueur"
+
+    assert tresorCourant(liste) == liste["joueurs"][0]["tresors"][-1], "tresorCourant"
+
+    assert not joueurCourantAFini(liste), "joueurCourantAFini"
+    while bool(prochainTresorJoueur(liste, 0)):
+        tresorTrouve(getJoueurCourant(liste))
+
+    assert joueurCourantAFini(liste), 'joueurCourantAFini'

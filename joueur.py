@@ -68,11 +68,18 @@ def getNom(joueur):
 
 if __name__=="__main__":
 
-    j1 = Joueur("Mat Biss")
+    j1 = Joueur("Mat")
+
     ajouterTresor(j1,28)
-    print("prochain Tresor (28):" + str(prochainTresor(j1)))
+    assert j1["tresors"] == [28], 'ajouterTresor()'
+
+    assert prochainTresor(j1) == 28, 'prochainTresor()'
+
     tresorTrouve(j1)
-    print(getNbTresorsRestants(j1))
-    print(getNom(j1))  
-    ajouterTresor(j1,10)  
-    print(getNbTresorsRestants(j1))
+    assert prochainTresor(j1) == None, 'tresorTrouve()'
+
+    assert getNbTresorsRestants(j1) == 0, 'getNbTresorsRestants()'
+    ajouterTresor(j1,28)
+    assert getNbTresorsRestants(j1) == 1, 'getNbTresorsRestants()'
+
+    assert getNom(j1) == "Mat", 'getNom'
